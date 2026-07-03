@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Dawn
 
 [![Build status](https://github.com/shopify/dawn/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Shopify/dawn/actions/workflows/ci.yml?query=branch%3Amain)
@@ -97,3 +98,8 @@ Ensure that you follow the list of [theme store requirements](https://shopify.de
 ## License
 
 Copyright (c) 2021-present Shopify Inc. See [LICENSE](/LICENSE.md) for further details.
+=======
+# violet-cms
+violet-cms
+>>>>>>> 579bab4fc4d3785b246444034085d8848ddd2149
+# violet-cms
