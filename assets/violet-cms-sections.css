@@ -122,6 +122,12 @@
   inset: 0;
 }
 
+/* Dawn oculta div:empty (especificidad 0,1,1); hace falta superarla
+   o el oscurecido del hero nunca se pinta. */
+.violet-hero div.violet-hero__overlay {
+  display: block;
+}
+
 .violet-hero__media img,
 .violet-hero__video,
 .violet-hero__placeholder {
@@ -132,8 +138,6 @@
 }
 
 .violet-hero__overlay {
-  /* Dawn oculta div:empty; sin esto el oscurecido nunca se pintaba. */
-  display: block;
   /* Mas oscuro abajo, donde vive el texto; el ajuste del editor fija la base. */
   background: linear-gradient(
     to top,
