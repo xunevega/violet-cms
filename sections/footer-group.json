@@ -9,27 +9,27 @@
           "type": "text",
           "settings": {
             "heading": "Violet Moon",
-            "subtext": "<p>Una tienda visual para piezas con carácter: productos reales, fichas cuidadas y compra clara.</p>"
+            "subtext": "<p>Una tienda visual para piezas con caracter: productos reales, fichas cuidadas y compra clara.</p>"
           }
         },
         "violet_house": {
           "type": "text",
           "settings": {
             "heading": "La casa",
-            "subtext": "<p><a href=\"/pages/sobre-nosotros\">Quiénes somos</a><br><a href=\"/pages/contacto\">Contacto</a><br><a href=\"/blogs/news\">Blog</a><br><a href=\"/collections/all\">Tienda</a></p>"
+            "subtext": "<p><a href=\"/pages/sobre-nosotros\">Quienes somos</a><br><a href=\"/pages/contacto\">Contacto</a><br><a href=\"/blogs/news\">Blog</a><br><a href=\"/collections/all\">Tienda</a></p>"
           }
         },
         "violet_legal": {
           "type": "text",
           "settings": {
             "heading": "Legal",
-            "subtext": "<p><a href=\"/policies/privacy-policy\">Privacidad</a><br><a href=\"/policies/terms-of-service\">Términos de servicio</a><br><a href=\"/policies/refund-policy\">Cambios y devoluciones</a><br><a href=\"/policies/shipping-policy\">Envíos</a></p>"
+            "subtext": "<p><a href=\"/policies/privacy-policy\">Privacidad</a><br><a href=\"/policies/terms-of-service\">Terminos de servicio</a><br><a href=\"/policies/refund-policy\">Cambios y devoluciones</a><br><a href=\"/policies/shipping-policy\">Envios</a></p>"
           }
         },
         "violet_contact": {
           "type": "text",
           "settings": {
-            "heading": "Dónde estamos",
+            "heading": "Donde estamos",
             "subtext": "<p>Violet Moon trabaja desde España y vende online. Para dudas sobre pedidos, productos o derechos de privacidad, usa la página de contacto.</p>"
           }
         }
@@ -42,8 +42,8 @@
       ],
       "settings": {
         "color_scheme": "scheme-1",
-        "newsletter_enable": true,
-        "newsletter_heading": "Suscríbete a la newsletter",
+        "newsletter_enable": false,
+        "newsletter_heading": "",
         "enable_follow_on_shop": true,
         "show_social": true,
         "enable_country_selector": false,
