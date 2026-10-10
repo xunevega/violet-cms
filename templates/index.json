@@ -18,7 +18,8 @@
         "color_scheme": "scheme-3",
         "featured_product": "taza-te-gato-kawaii-ceramica-tapa-cuchara",
         "featured_collection": ""
-      }
+      },
+      "disabled": true
     },
     "violet_showcase_bolsos": {
       "type": "violet-collection-showcase",
@@ -38,7 +39,8 @@
         "separator": "none",
         "padding_top": 0,
         "padding_bottom": 0
-      }
+      },
+      "disabled": true
     },
     "violet_showcase_geometrico": {
       "type": "violet-collection-showcase",
@@ -58,7 +60,8 @@
         "separator": "top",
         "padding_top": 56,
         "padding_bottom": 56
-      }
+      },
+      "disabled": true
     },
     "violet_showcase_doodle": {
       "type": "violet-collection-showcase",
@@ -78,32 +81,35 @@
         "separator": "top",
         "padding_top": 56,
         "padding_bottom": 56
-      }
+      },
+      "disabled": true
     },
     "violet_product_carousel": {
       "type": "violet-product-carousel",
       "settings": {
-        "eyebrow": "Selección Violet",
-        "heading": "Productos para mirar mejor",
-        "heading_size": "h1",
-        "text": "<p>Un carrusel ligero para descubrir productos reales sin convertir la home en una plantilla pesada.</p>",
+        "eyebrow": "",
+        "heading": "Los más populares",
+        "heading_size": "h2",
+        "text": "",
         "products": [],
         "collection": "all",
-        "products_to_show": 8,
+        "products_to_show": 12,
         "columns_desktop": 4,
-        "image_ratio": "adapt",
+        "image_ratio": "square",
         "image_shape": "default",
         "show_secondary_image": true,
         "show_vendor": false,
         "show_rating": false,
-        "show_violet_badges": true,
+        "show_violet_badges": false,
         "enable_violet_quick_view": true,
         "quick_add": "none",
-        "button_label": "Ver tienda",
+        "button_label": "Ver más",
         "button_link": "shopify://collections/all",
         "color_scheme": "scheme-1",
-        "padding_top": 52,
-        "padding_bottom": 44
+        "padding_top": 36,
+        "padding_bottom": 28,
+        "show_product_type": true,
+        "button_position": "header"
       }
     },
     "violet_featured_product": {
@@ -121,7 +127,8 @@
         "color_scheme": "scheme-1",
         "padding_top": 52,
         "padding_bottom": 52
-      }
+      },
+      "disabled": true
     },
     "violet_shop_the_look": {
       "type": "violet-shop-the-look",
@@ -161,7 +168,8 @@
         "color_scheme": "scheme-1",
         "padding_top": 52,
         "padding_bottom": 52
-      }
+      },
+      "disabled": true
     },
     "violet_logos": {
       "type": "violet-brand-logos",
@@ -192,18 +200,192 @@
         "show_author": false,
         "padding_top": 52,
         "padding_bottom": 52
+      },
+      "disabled": true
+    },
+    "violet_carousel_bolsos": {
+      "type": "violet-product-carousel",
+      "settings": {
+        "eyebrow": "",
+        "heading": "Bolsos de mano",
+        "heading_size": "h2",
+        "text": "",
+        "products": [],
+        "collection": "bolsos-de-mano",
+        "products_to_show": 12,
+        "columns_desktop": 4,
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "show_violet_badges": false,
+        "enable_violet_quick_view": true,
+        "quick_add": "none",
+        "button_label": "Comprar ahora",
+        "button_link": "shopify://collections/bolsos-de-mano",
+        "color_scheme": "scheme-1",
+        "padding_top": 28,
+        "padding_bottom": 36,
+        "show_product_type": true,
+        "button_position": "header"
+      }
+    },
+    "violet_gift_finder": {
+      "type": "violet-gift-finder",
+      "blocks": {
+        "band_1": {
+          "type": "band",
+          "settings": {
+            "label": "Hasta 25 €",
+            "max_price": 25
+          }
+        },
+        "band_2": {
+          "type": "band",
+          "settings": {
+            "label": "De 25 a 35 €",
+            "min_price": 25,
+            "max_price": 35
+          }
+        },
+        "band_3": {
+          "type": "band",
+          "settings": {
+            "label": "De 35 a 45 €",
+            "min_price": 35,
+            "max_price": 45
+          }
+        },
+        "band_4": {
+          "type": "band",
+          "settings": {
+            "label": "Más de 45 €",
+            "min_price": 45
+          }
+        }
+      },
+      "block_order": [
+        "band_1",
+        "band_2",
+        "band_3",
+        "band_4"
+      ],
+      "settings": {
+        "heading": "¿Buscas un regalo?",
+        "heading_size": "h2",
+        "text": "<p>Elige el presupuesto y te enseñamos lo que encaja.</p>",
+        "color_scheme": "scheme-1",
+        "section_width": "page",
+        "separator": "none",
+        "visibility": "all",
+        "padding_top": 44,
+        "padding_bottom": 44
+      }
+    },
+    "violet_about": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Ilustración propia, impresa bajo pedido",
+            "heading_size": "h1"
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Cada diseño de Violet Moon nace como una ilustración y se imprime cuando lo pides.</p>",
+            "text_style": "body"
+          }
+        },
+        "button": {
+          "type": "button",
+          "settings": {
+            "button_label": "Conocer Violet Moon",
+            "button_link": "shopify://collections/all",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading",
+        "text",
+        "button"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/018fcdf3688f4492ab8b4851d3dd5a36.jpg",
+        "height": "adapt",
+        "desktop_image_width": "small",
+        "layout": "image_first",
+        "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "section_color_scheme": "scheme-1",
+        "color_scheme": "scheme-1",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "violet_trust_strip": {
+      "type": "violet-trust-strip",
+      "blocks": {
+        "i1": {
+          "type": "item",
+          "settings": {
+            "icon": "heart",
+            "title": "Ilustración propia",
+            "text": "Diseños de autor que no encontrarás en otra tienda."
+          }
+        },
+        "i2": {
+          "type": "item",
+          "settings": {
+            "icon": "box",
+            "title": "Impreso bajo pedido",
+            "text": "Se fabrica cuando lo pides, sin stock acumulado."
+          }
+        },
+        "i3": {
+          "type": "item",
+          "settings": {
+            "icon": "truck",
+            "title": "Envío gratis desde 60 €",
+            "text": "En pedidos a partir de 60 €."
+          }
+        }
+      },
+      "block_order": [
+        "i1",
+        "i2",
+        "i3"
+      ],
+      "settings": {
+        "background": "#dceae4",
+        "color_scheme": "scheme-1",
+        "section_width": "page",
+        "visibility": "all",
+        "padding_top": 24,
+        "padding_bottom": 48
       }
     }
   },
   "order": [
+    "violet_product_carousel",
+    "violet_carousel_bolsos",
+    "violet_gift_finder",
+    "violet_about",
+    "violet_logos",
+    "violet_trust_strip",
     "violet_hero",
     "violet_showcase_bolsos",
     "violet_showcase_geometrico",
     "violet_showcase_doodle",
-    "violet_product_carousel",
     "violet_featured_product",
     "violet_shop_the_look",
-    "violet_logos",
     "featured_blog"
   ]
 }

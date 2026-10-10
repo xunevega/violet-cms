@@ -48,6 +48,13 @@
           {%- endif -%}
         </div>
 
+        <div class="violet-product-carousel__aside">
+        {%- if section.settings.button_position == 'header' and section.settings.button_label != blank and section.settings.button_link != blank -%}
+          <a class="violet-product-carousel__header-link" href="{{ section.settings.button_link }}">
+            {{ section.settings.button_label | escape }}
+            <span class="svg-wrapper">{{- 'icon-arrow.svg' | inline_asset_content -}}</span>
+          </a>
+        {%- endif -%}
         <div class="violet-product-carousel__controls" aria-label="{{ 'general.slider.name' | t }}">
           <button
             type="button"
@@ -65,6 +72,7 @@
           >
             <span class="svg-wrapper">{{ 'icon-caret.svg' | inline_asset_content }}</span>
           </button>
+        </div>
         </div>
       </div>
 
@@ -84,6 +92,7 @@
                   lazy_load: true,
                   show_secondary_image: section.settings.show_secondary_image,
                   show_vendor: section.settings.show_vendor,
+                  show_product_type: section.settings.show_product_type,
                   show_rating: section.settings.show_rating,
                   skip_styles: skip_card_product_styles,
                   section_id: section.id,
@@ -107,6 +116,7 @@
                   lazy_load: true,
                   show_secondary_image: section.settings.show_secondary_image,
                   show_vendor: section.settings.show_vendor,
+                  show_product_type: section.settings.show_product_type,
                   show_rating: section.settings.show_rating,
                   skip_styles: skip_card_product_styles,
                   section_id: section.id,
@@ -127,7 +137,7 @@
         <p class="violet-product-carousel__empty">Selecciona productos o una colección para llenar este carrusel.</p>
       {%- endif -%}
 
-      {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}
+      {%- if section.settings.button_position != 'header' and section.settings.button_label != blank and section.settings.button_link != blank -%}
         <div class="violet-product-carousel__footer">
           <a class="button" href="{{ section.settings.button_link }}">{{ section.settings.button_label | escape }}</a>
         </div>
@@ -239,6 +249,12 @@
     },
     {
       "type": "checkbox",
+      "id": "show_product_type",
+      "label": "Mostrar tipo de producto",
+      "default": false
+    },
+    {
+      "type": "checkbox",
       "id": "show_rating",
       "label": "Mostrar rating",
       "default": false
@@ -275,6 +291,16 @@
       "type": "url",
       "id": "button_link",
       "label": "Enlace del botón"
+    },
+    {
+      "type": "select",
+      "id": "button_position",
+      "label": "Posición del enlace",
+      "options": [
+        { "value": "bottom", "label": "Botón debajo" },
+        { "value": "header", "label": "Enlace junto al título" }
+      ],
+      "default": "bottom"
     },
     {
       "type": "color_scheme",

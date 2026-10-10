@@ -83,6 +83,36 @@
   color: rgba(var(--color-foreground), 0.72);
 }
 
+.violet-product-carousel__aside {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 2rem;
+  align-items: center;
+}
+
+.violet-product-carousel__header-link {
+  display: inline-flex;
+  gap: 0.6rem;
+  align-items: center;
+  color: rgb(var(--color-foreground));
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.violet-product-carousel__header-link .svg-wrapper {
+  width: 1.2rem;
+  height: 1.2rem;
+  transition: transform var(--duration-short, 100ms) ease;
+}
+
+.violet-product-carousel__header-link:hover .svg-wrapper {
+  transform: translateX(0.3rem);
+}
+
 .violet-product-carousel__controls {
   display: flex;
   flex: 0 0 auto;
@@ -180,7 +210,7 @@
   }
 
   .violet-product-carousel__header {
-    align-items: start;
+    align-items: end;
   }
 
   .violet-product-carousel__controls {
@@ -197,4 +227,13 @@
   .violet-product-carousel-shell.violet-section--visible-mobile {
     display: none !important;
   }
+}
+
+.violet-card-type {
+  margin-top: 0.2rem;
+  color: rgb(var(--color-link, var(--color-foreground)));
+  font-size: 1.1rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.8;
 }

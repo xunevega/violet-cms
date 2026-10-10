@@ -1,0 +1,129 @@
+{{ 'violet-cms-sections.css' | asset_url | stylesheet_tag }}
+
+{%- if section.blocks.size > 0 -%}
+  <div class="violet-section violet-trust-strip violet-section--visible-{{ section.settings.visibility }} color-{{ section.settings.color_scheme }} gradient">
+    <div
+      class="page-width violet-section__inner violet-section__inner--{{ section.settings.section_width }}"
+      style="--violet-padding-top: {{ section.settings.padding_top }}px; --violet-padding-bottom: {{ section.settings.padding_bottom }}px;"
+    >
+      <ul
+        class="violet-trust-strip__list"
+        role="list"
+        style="--violet-trust-columns: {{ section.blocks.size | at_most: 4 }};{% if section.settings.background != blank %} --violet-trust-bg: {{ section.settings.background }};{% endif %}"
+      >
+        {%- for block in section.blocks -%}
+          <li class="violet-trust-strip__item" {{ block.shopify_attributes }}>
+            {%- if block.settings.icon != 'none' -%}
+              <span class="violet-trust-strip__icon svg-wrapper" aria-hidden="true">
+                {%- case block.settings.icon -%}
+                  {%- when 'truck' -%}{{ 'icon-truck.svg' | inline_asset_content }}
+                  {%- when 'heart' -%}{{ 'icon-heart.svg' | inline_asset_content }}
+                  {%- when 'star' -%}{{ 'icon-star.svg' | inline_asset_content }}
+                  {%- when 'return' -%}{{ 'icon-return.svg' | inline_asset_content }}
+                  {%- when 'lock' -%}{{ 'icon-lock.svg' | inline_asset_content }}
+                  {%- when 'leaf' -%}{{ 'icon-leaf.svg' | inline_asset_content }}
+                  {%- when 'shirt' -%}{{ 'icon-shirt.svg' | inline_asset_content }}
+                  {%- when 'box' -%}{{ 'icon-box.svg' | inline_asset_content }}
+                  {%- when 'price_tag' -%}{{ 'icon-price-tag.svg' | inline_asset_content }}
+                  {%- when 'chat' -%}{{ 'icon-chat-bubble.svg' | inline_asset_content }}
+                  {%- else -%}{{ 'icon-check-mark.svg' | inline_asset_content }}
+                {%- endcase -%}
+              </span>
+            {%- endif -%}
+            <div class="violet-trust-strip__copy">
+              {%- if block.settings.title != blank -%}
+                <p class="violet-trust-strip__title">{{ block.settings.title | escape }}</p>
+              {%- endif -%}
+              {%- if block.settings.text != blank -%}
+                <p class="violet-trust-strip__text">{{ block.settings.text | escape }}</p>
+              {%- endif -%}
+            </div>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Violet: franja confianza",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Color de fondo de la franja",
+      "default": "#dceae4"
+    },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-1" },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Ancho de sección",
+      "options": [
+        { "value": "narrow", "label": "Estrecho" },
+        { "value": "page", "label": "Normal" },
+        { "value": "wide", "label": "Ancho" },
+        { "value": "full", "label": "Completo" }
+      ],
+      "default": "page"
+    },
+    {
+      "type": "select",
+      "id": "visibility",
+      "label": "Visibilidad",
+      "options": [
+        { "value": "all", "label": "Móvil y escritorio" },
+        { "value": "desktop", "label": "Solo escritorio" },
+        { "value": "mobile", "label": "Solo móvil" }
+      ],
+      "default": "all"
+    },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding superior", "default": 24 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding inferior", "default": 24 }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Punto",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icono",
+          "options": [
+            { "value": "none", "label": "Sin icono" },
+            { "value": "check", "label": "Check" },
+            { "value": "heart", "label": "Corazón" },
+            { "value": "star", "label": "Estrella" },
+            { "value": "truck", "label": "Envío" },
+            { "value": "box", "label": "Caja" },
+            { "value": "return", "label": "Devolución" },
+            { "value": "lock", "label": "Pago seguro" },
+            { "value": "leaf", "label": "Hoja" },
+            { "value": "shirt", "label": "Camiseta" },
+            { "value": "price_tag", "label": "Etiqueta" },
+            { "value": "chat", "label": "Mensaje" }
+          ],
+          "default": "check"
+        },
+        { "type": "text", "id": "title", "label": "Título", "default": "Título del punto" },
+        { "type": "text", "id": "text", "label": "Texto" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Violet: franja confianza",
+      "blocks": [
+        { "type": "item", "settings": { "icon": "heart", "title": "Ilustración propia" } },
+        { "type": "item", "settings": { "icon": "box", "title": "Impreso bajo pedido" } },
+        { "type": "item", "settings": { "icon": "lock", "title": "Pago seguro" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
