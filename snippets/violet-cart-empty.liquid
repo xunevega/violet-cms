@@ -1,0 +1,33 @@
+{% comment %}
+  Violet CMS empty cart state.
+
+  Accepts:
+  - context: {String} drawer | page
+{% endcomment %}
+
+<div class="violet-cart-empty{% if context == 'page' %} violet-cart-empty--page{% endif %}">
+  <p class="violet-cart-empty__eyebrow">{{ 'violet.cart.empty_eyebrow' | t }}</p>
+
+  {%- if context == 'page' -%}
+    <h1 class="violet-cart-empty__title">{{ 'violet.cart.empty_title' | t }}</h1>
+  {%- else -%}
+    <h2 class="violet-cart-empty__title">{{ 'violet.cart.empty_title' | t }}</h2>
+  {%- endif -%}
+
+  <p class="violet-cart-empty__text">{{ 'violet.cart.empty_text' | t }}</p>
+
+  <div class="violet-cart-empty__actions">
+    <a href="{{ routes.all_products_collection_url }}" class="button">
+      {{ 'violet.cart.empty_primary' | t }}
+    </a>
+    <a href="{{ routes.collections_url }}" class="button button--secondary">
+      {{ 'violet.cart.empty_collections' | t }}
+    </a>
+  </div>
+
+  {%- if blogs.news != blank and blogs.news.articles_count > 0 -%}
+    <a class="violet-cart-empty__link" href="{{ blogs.news.url }}">
+      {{ 'violet.cart.empty_blog' | t }}
+    </a>
+  {%- endif -%}
+</div>

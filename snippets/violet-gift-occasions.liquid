@@ -1,0 +1,21 @@
+{% comment %}
+  Violet CMS — Gift occasions from product.metafields.violet.gift_occasions.
+  Accepts: product, block
+{% endcomment %}
+{{ 'violet-product.css' | asset_url | stylesheet_tag }}
+
+{%- assign occasions = product.metafields.violet.gift_occasions.value -%}
+{%- if occasions != blank -%}
+  {%- assign fallback_heading = 'violet.product.gift_occasions_heading' | t -%}
+  {%- assign heading = block.settings.heading | default: fallback_heading -%}
+  <div class="violet-gift-occasions" {{ block.shopify_attributes }}>
+    <h3 class="violet-gift-occasions__heading h4">
+      {{ heading | escape }}
+    </h3>
+    <ul class="violet-gift-occasions__list list-unstyled">
+      {%- for occasion in occasions -%}
+        <li class="violet-gift-occasions__item">{{ occasion | escape }}</li>
+      {%- endfor -%}
+    </ul>
+  </div>
+{%- endif -%}

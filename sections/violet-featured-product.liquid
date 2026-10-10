@@ -1,0 +1,182 @@
+{{ 'violet-cms-sections.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign featured_product = section.settings.product
+  assign featured_variant = featured_product.selected_or_first_available_variant
+  assign product_image = section.settings.image | default: featured_product.featured_media
+-%}
+
+{%- if featured_product != blank -%}
+  <section class="violet-section violet-featured-product-section violet-section--separator-{{ section.settings.separator }} violet-section--visible-{{ section.settings.visibility }} color-{{ section.settings.color_scheme }} gradient">
+    <div class="page-width violet-section__inner violet-section__inner--{{ section.settings.section_width }} violet-section__inner--align-{{ section.settings.content_alignment }}" style="--violet-padding-top: {{ section.settings.padding_top }}px; --violet-padding-bottom: {{ section.settings.padding_bottom }}px;">
+      <div class="violet-featured-product">
+        <a class="violet-featured-product__media" href="{{ featured_product.url }}" aria-label="{{ featured_product.title | escape }}">
+          {%- if product_image != blank -%}
+            {{
+              product_image
+              | image_url: width: 1400
+              | image_tag:
+                loading: 'lazy',
+                widths: '360, 540, 720, 900, 1200, 1400',
+                alt: product_image.alt
+            }}
+          {%- endif -%}
+        </a>
+
+        <div class="violet-featured-product__content">
+          {%- if section.settings.eyebrow != blank -%}
+            <p class="violet-section__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+          {%- endif -%}
+
+          <h2 class="violet-section__title {{ section.settings.heading_size }}">
+            {{ section.settings.heading | default: featured_product.title | escape }}
+          </h2>
+
+          {%- if section.settings.text != blank -%}
+            <div class="violet-section__text rte">{{ section.settings.text }}</div>
+          {%- elsif featured_product.description != blank -%}
+            <div class="violet-section__text rte">{{ featured_product.description | strip_html | truncatewords: 34 }}</div>
+          {%- endif -%}
+
+          <div class="violet-featured-product__summary">
+            {%- render 'price', product: featured_product, use_variant: true, price_class: 'price--large' -%}
+            {%- if featured_variant.available -%}
+              <span class="violet-featured-product__status">{{ 'violet.product.available' | t }}</span>
+            {%- else -%}
+              <span class="violet-featured-product__status violet-featured-product__status--sold-out">{{ 'products.product.sold_out' | t }}</span>
+            {%- endif -%}
+          </div>
+
+          {%- if section.settings.show_metafield_highlights -%}
+            {%- liquid
+              assign benefits = featured_product.metafields.violet.benefits.value
+              assign materials = featured_product.metafields.violet.materials.value
+              assign fit_notes = featured_product.metafields.violet.fit_notes.value
+            -%}
+            {%- if benefits != blank or materials != blank or fit_notes != blank -%}
+              <ul class="violet-featured-product__facts" role="list">
+                {%- if benefits != blank -%}
+                  {%- for benefit in benefits limit: 3 -%}
+                    {%- if benefit.title.value != blank -%}
+                      <li>{{ benefit.title.value | escape }}</li>
+                    {%- elsif benefit.text.value != blank -%}
+                      <li>{{ benefit.text.value | strip_html | truncate: 90 }}</li>
+                    {%- endif -%}
+                  {%- endfor -%}
+                {%- endif -%}
+                {%- if materials != blank -%}
+                  {%- for material in materials limit: 3 -%}
+                    <li>{{ material | strip_html | truncate: 90 }}</li>
+                  {%- endfor -%}
+                {%- endif -%}
+                {%- if fit_notes != blank -%}
+                  <li>{{ fit_notes | strip_html | truncate: 90 }}</li>
+                {%- endif -%}
+              </ul>
+            {%- endif -%}
+          {%- endif -%}
+
+          <div class="violet-featured-product__actions">
+            <a class="button button--primary" href="{{ featured_product.url }}">
+              {{ section.settings.primary_button_label | escape }}
+            </a>
+
+            {%- if section.settings.enable_quick_add and featured_product.has_only_default_variant and featured_variant.available -%}
+              {%- form 'product', featured_product, class: 'violet-featured-product__form' -%}
+                <input type="hidden" name="id" value="{{ featured_variant.id }}">
+                <button type="submit" name="add" class="button button--secondary">
+                  {{ 'products.product.add_to_cart' | t }}
+                </button>
+              {%- endform -%}
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Violet: producto",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Producto" },
+    { "type": "image_picker", "id": "image", "label": "Imagen editorial opcional" },
+    { "type": "text", "id": "eyebrow", "label": "Etiqueta", "default": "Producto destacado" },
+    { "type": "inline_richtext", "id": "heading", "label": "Titulo alternativo" },
+    { "type": "richtext", "id": "text", "label": "Texto editorial" },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Tamano del titulo",
+      "options": [
+        { "value": "h2", "label": "Pequeno" },
+        { "value": "h1", "label": "Medio" },
+        { "value": "h0", "label": "Grande" }
+      ],
+      "default": "h1"
+    },
+    { "type": "checkbox", "id": "show_metafield_highlights", "label": "Mostrar datos Violet del producto", "default": true },
+    { "type": "checkbox", "id": "enable_quick_add", "label": "Mostrar add to cart si no tiene variantes", "default": true },
+    { "type": "text", "id": "primary_button_label", "label": "Boton principal", "default": "Ver ficha completa" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-1" },
+    { "type": "header", "content": "Violet layout" },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Ancho de seccion",
+      "options": [
+        { "value": "narrow", "label": "Estrecho" },
+        { "value": "page", "label": "Normal" },
+        { "value": "wide", "label": "Ancho" },
+        { "value": "full", "label": "Completo" }
+      ],
+      "default": "page"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Alineacion del contenido",
+      "options": [
+        { "value": "left", "label": "Izquierda" },
+        { "value": "center", "label": "Centro" },
+        { "value": "right", "label": "Derecha" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "separator",
+      "label": "Linea separadora",
+      "options": [
+        { "value": "none", "label": "Sin linea" },
+        { "value": "top", "label": "Arriba" },
+        { "value": "bottom", "label": "Abajo" },
+        { "value": "both", "label": "Arriba y abajo" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "select",
+      "id": "visibility",
+      "label": "Visibilidad",
+      "options": [
+        { "value": "all", "label": "Movil y escritorio" },
+        { "value": "mobile", "label": "Solo movil" },
+        { "value": "desktop", "label": "Solo escritorio" }
+      ],
+      "default": "all"
+    },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding superior", "default": 52 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding inferior", "default": 52 }
+  ],
+  "presets": [
+    { "name": "Violet: producto editorial" }
+  ]
+}
+{% endschema %}

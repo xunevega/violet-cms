@@ -17,7 +17,7 @@
         "announcement-bar-0": {
           "type": "announcement",
           "settings": {
-            "text": "Welcome to our store",
+            "text": "Violet Moon en desarrollo: probando producto real, carrito y contenido editorial.",
             "text_alignment": "center",
             "color_scheme": "scheme-1",
             "link": ""
@@ -35,12 +35,17 @@
         "menu_color_scheme": "scheme-1",
         "logo_position": "middle-left",
         "menu": "main-menu",
-        "menu_type_desktop": "dropdown",
+        "menu_type_desktop": "mega",
         "sticky_header_type": "on-scroll-up",
         "show_line_separator": true,
         "enable_country_selector": true,
         "enable_language_selector": true,
         "enable_customer_avatar": true,
+        "enable_violet_mega_cards": true,
+        "enable_violet_mobile_bar": true,
+        "violet_mega_product_1": "muneca-vestido-rayas-orejas-calabaza-flores",
+        "violet_mega_product_2": "taza-te-gato-kawaii-ceramica-tapa-cuchara",
+        "violet_mega_product_3": "bolso-mano-chic-colibri-estampado-floral",
         "mobile_logo_position": "center",
         "margin_bottom": 0,
         "padding_top": 20,

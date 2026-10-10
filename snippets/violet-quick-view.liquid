@@ -1,0 +1,113 @@
+{% comment %}
+  Violet CMS — sober collection quick view.
+
+  Accepts:
+  - product: {Object}
+  - section_id: {String}
+{% endcomment %}
+{%- liquid
+  assign quick_variant = product.selected_or_first_available_variant
+  assign has_simple_purchase = false
+  if product.variants_count == 1 and quick_variant != blank and quick_variant.available
+    assign has_simple_purchase = true
+  endif
+  assign quick_summary = product.metafields.violet.quick_summary.value
+  assign fit_notes = product.metafields.violet.fit_notes.value
+  assign availability_message = product.metafields.violet.availability_message.value
+  assign quick_view_form_id = 'violet-quick-view-form-' | append: section_id | append: product.id
+-%}
+
+<modal-opener class="violet-quick-view-opener no-js-hidden" data-modal="#VioletQuickView-{{ section_id }}-{{ product.id }}">
+  <button
+    type="button"
+    class="button button--secondary violet-quick-view-opener__button"
+    aria-haspopup="dialog"
+    aria-label="{{ 'violet.collection.quick_view_for' | t: product: product.title | escape }}"
+  >
+    {{ 'violet.collection.quick_view' | t }}
+  </button>
+</modal-opener>
+
+<modal-dialog id="VioletQuickView-{{ section_id }}-{{ product.id }}" class="violet-quick-view-modal">
+  <div
+    role="dialog"
+    aria-label="{{ 'violet.collection.quick_view_for' | t: product: product.title | escape }}"
+    aria-modal="true"
+    class="violet-quick-view-modal__content global-settings-popup"
+    tabindex="-1"
+  >
+    <button
+      id="ModalClose-VioletQuickView-{{ section_id }}-{{ product.id }}"
+      type="button"
+      class="violet-quick-view-modal__close"
+      aria-label="{{ 'accessibility.close' | t }}"
+    >
+      {{- 'icon-close.svg' | inline_asset_content -}}
+    </button>
+
+    <div class="violet-quick-view">
+      <a class="violet-quick-view__media" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
+        {%- if product.featured_media -%}
+          {{
+            product.featured_media
+            | image_url: width: 720
+            | image_tag: loading: 'lazy', widths: '240, 360, 540, 720', sizes: '(min-width: 750px) 320px, 90vw', alt: product.featured_media.alt
+          }}
+        {%- endif -%}
+      </a>
+
+      <div class="violet-quick-view__content">
+        <p class="violet-quick-view__eyebrow">{{ product.vendor | escape }}</p>
+        <h2 class="violet-quick-view__title h3">
+          <a href="{{ product.url }}">{{ product.title | escape }}</a>
+        </h2>
+
+        {% render 'price', product: product, use_variant: true, target: quick_variant %}
+
+        <div class="violet-quick-view__facts">
+          {%- if availability_message != blank -%}
+            <span class="violet-quick-view__fact">{{ availability_message | escape }}</span>
+          {%- elsif product.available -%}
+            <span class="violet-quick-view__fact">{{ 'violet.collection.available' | t }}</span>
+          {%- else -%}
+            <span class="violet-quick-view__fact">{{ 'products.product.sold_out' | t }}</span>
+          {%- endif -%}
+
+          {%- if product.variants_count > 1 -%}
+            <span class="violet-quick-view__fact">{{ 'violet.collection.options_available' | t }}</span>
+          {%- endif -%}
+        </div>
+
+        {%- if quick_summary != blank -%}
+          <p class="violet-quick-view__summary">{{ quick_summary | escape }}</p>
+        {%- elsif fit_notes != blank -%}
+          <p class="violet-quick-view__summary">{{ fit_notes | escape }}</p>
+        {%- elsif product.description != blank -%}
+          <p class="violet-quick-view__summary">{{ product.description | strip_html | truncate: 150 }}</p>
+        {%- endif -%}
+
+        {% render 'violet-product-card-badges', product: product, max_items: 3 %}
+
+        <div class="violet-quick-view__actions">
+          {%- if has_simple_purchase -%}
+            <product-form data-section-id="{{ section_id }}">
+              {%- form 'product', product, id: quick_view_form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+                <input type="hidden" name="id" value="{{ quick_variant.id }}" class="product-variant-id">
+                <button type="submit" name="add" class="button button--primary">
+                  <span>{{ 'products.product.add_to_cart' | t }}</span>
+                  {%- render 'loading-spinner' -%}
+                </button>
+              {%- endform -%}
+            </product-form>
+          {%- elsif product.available -%}
+            <p class="violet-quick-view__option-note">{{ 'violet.collection.choose_options_note' | t }}</p>
+          {%- endif -%}
+
+          <a class="button button--secondary" href="{{ product.url }}">
+            {{ 'violet.collection.view_full_product' | t }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</modal-dialog>

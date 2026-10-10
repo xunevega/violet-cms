@@ -4,6 +4,7 @@
 {{ 'component-list-menu.css' | asset_url | stylesheet_tag }}
 {{ 'component-list-payment.css' | asset_url | stylesheet_tag }}
 {{ 'component-list-social.css' | asset_url | stylesheet_tag }}
+{{ 'violet-cms-sections.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
   .footer {
@@ -49,7 +50,7 @@
     or section.settings.enable_follow_on_shop
   -%}
     {%- unless only_empty_brand -%}
-      <div class="footer__content-top page-width">
+      <div class="footer__content-top{% unless section.settings.violet_footer_content_width == 'full' %} page-width{% endunless %}{% if section.settings.violet_footer_content_width == 'wide' %} footer__content-top--violet-wide{% endif %}">
         {%- if section.blocks.size > 0 -%}
           {%- liquid
             if section.blocks.size == 9
@@ -250,6 +251,62 @@
     {%- endunless -%}
   {%- endif -%}
 
+  {%- if section.settings.violet_footer_enable -%}
+    <div class="violet-footer-essentials violet-footer-essentials--{{ section.settings.violet_footer_layout }} violet-section--separator-{{ section.settings.violet_footer_separator }}{% unless section.settings.violet_footer_width == 'full' %} page-width{% endunless %}{% if section.settings.violet_footer_width == 'wide' %} violet-footer-essentials--wide{% endif %}">
+      <div class="violet-footer-essentials__main">
+        {%- if section.settings.violet_footer_eyebrow != blank -%}
+          <p class="violet-section__eyebrow">{{ section.settings.violet_footer_eyebrow | escape }}</p>
+        {%- endif -%}
+        {%- if section.settings.violet_footer_heading != blank -%}
+          <h2 class="violet-footer-essentials__heading h3">{{ section.settings.violet_footer_heading | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.violet_footer_text != blank -%}
+          <div class="violet-footer-essentials__text rte">{{ section.settings.violet_footer_text }}</div>
+        {%- endif -%}
+      </div>
+
+      <div class="violet-footer-essentials__aside">
+        {%- if section.settings.violet_footer_contact_email != blank or section.settings.violet_footer_location != blank -%}
+          <div class="violet-footer-essentials__group">
+            <h3 class="violet-footer-essentials__title">{{ 'violet.footer.contact' | t }}</h3>
+            <ul class="violet-footer-essentials__links list-unstyled">
+              {%- if section.settings.violet_footer_contact_email != blank -%}
+                <li>
+                  <a href="mailto:{{ section.settings.violet_footer_contact_email | escape }}">
+                    {{ section.settings.violet_footer_contact_email | escape }}
+                  </a>
+                </li>
+              {%- endif -%}
+              {%- if section.settings.violet_footer_location != blank -%}
+                <li>{{ section.settings.violet_footer_location | escape }}</li>
+              {%- endif -%}
+            </ul>
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.violet_footer_show_policies and shop.policies != blank -%}
+          <div class="violet-footer-essentials__group">
+            <h3 class="violet-footer-essentials__title">{{ 'violet.footer.legal' | t }}</h3>
+            <ul class="violet-footer-essentials__links list-unstyled">
+              {%- for policy in shop.policies -%}
+                {%- if policy != blank -%}
+                  <li><a href="{{ policy.url }}">{{ policy.title | escape }}</a></li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.violet_footer_show_social and has_social_icons -%}
+          <div class="violet-footer-essentials__group">
+            <h3 class="violet-footer-essentials__title">{{ 'violet.footer.social' | t }}</h3>
+            {%- render 'social-icons', class: 'violet-footer-essentials__social' -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+
   <div
     class="footer__content-bottom{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
     {% if settings.animations_reveal_on_scroll %}
@@ -302,7 +359,9 @@
         <small class="copyright__content"
           >&copy; {{ 'now' | date: '%Y' }}, {{ shop.name | link_to: routes.root_url -}}
         </small>
-        <small class="copyright__content">{{ powered_by_link }}</small>
+        {%- if section.settings.violet_footer_show_powered_by -%}
+          <small class="copyright__content">{{ powered_by_link }}</small>
+        {%- endif -%}
         {%- if section.settings.show_policy -%}
           <ul class="policies list-unstyled">
             {%- for policy in shop.policies -%}
@@ -491,6 +550,150 @@
       "default": true,
       "label": "t:sections.footer.settings.show_policy.label",
       "info": "t:sections.footer.settings.show_policy.info"
+    },
+    {
+      "type": "header",
+      "content": "Violet estructura"
+    },
+    {
+      "type": "select",
+      "id": "violet_footer_content_width",
+      "label": "Ancho de bloques del footer",
+      "options": [
+        {
+          "value": "page",
+          "label": "Pagina"
+        },
+        {
+          "value": "wide",
+          "label": "Ancho"
+        },
+        {
+          "value": "full",
+          "label": "Completo"
+        }
+      ],
+      "default": "page"
+    },
+    {
+      "type": "checkbox",
+      "id": "violet_footer_show_powered_by",
+      "label": "Mostrar powered by Shopify",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Violet footer"
+    },
+    {
+      "type": "checkbox",
+      "id": "violet_footer_enable",
+      "label": "Mostrar bloque legal-social Violet",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "violet_footer_layout",
+      "label": "Layout del bloque Violet",
+      "options": [
+        {
+          "value": "split",
+          "label": "Texto + columnas"
+        },
+        {
+          "value": "stacked",
+          "label": "Apilado"
+        },
+        {
+          "value": "compact",
+          "label": "Compacto"
+        }
+      ],
+      "default": "split"
+    },
+    {
+      "type": "select",
+      "id": "violet_footer_width",
+      "label": "Ancho del bloque Violet",
+      "options": [
+        {
+          "value": "page",
+          "label": "Pagina"
+        },
+        {
+          "value": "wide",
+          "label": "Ancho"
+        },
+        {
+          "value": "full",
+          "label": "Completo"
+        }
+      ],
+      "default": "page"
+    },
+    {
+      "type": "select",
+      "id": "violet_footer_separator",
+      "label": "Separador del bloque Violet",
+      "options": [
+        {
+          "value": "none",
+          "label": "Sin separador"
+        },
+        {
+          "value": "top",
+          "label": "Arriba"
+        },
+        {
+          "value": "bottom",
+          "label": "Abajo"
+        },
+        {
+          "value": "both",
+          "label": "Arriba y abajo"
+        }
+      ],
+      "default": "top"
+    },
+    {
+      "type": "text",
+      "id": "violet_footer_eyebrow",
+      "label": "Etiqueta",
+      "default": "Violet Moon"
+    },
+    {
+      "type": "text",
+      "id": "violet_footer_heading",
+      "label": "Titulo",
+      "default": "Una tienda visual, clara y cuidada"
+    },
+    {
+      "type": "richtext",
+      "id": "violet_footer_text",
+      "label": "Texto",
+      "default": "<p>Productos, historias y colecciones con informacion honesta antes de comprar.</p>"
+    },
+    {
+      "type": "text",
+      "id": "violet_footer_contact_email",
+      "label": "Email de contacto"
+    },
+    {
+      "type": "text",
+      "id": "violet_footer_location",
+      "label": "Ubicacion"
+    },
+    {
+      "type": "checkbox",
+      "id": "violet_footer_show_policies",
+      "label": "Mostrar politicas de Shopify",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "violet_footer_show_social",
+      "label": "Mostrar redes sociales",
+      "default": true
     },
     {
       "type": "header",

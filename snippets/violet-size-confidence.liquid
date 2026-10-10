@@ -1,0 +1,69 @@
+{% comment %}
+  Violet CMS — Size and confidence block.
+
+  Accepts:
+  - product: {Object}
+  - block: {Object}
+{% endcomment %}
+{%- liquid
+  assign size_guide = product.metafields.violet.size_guide.value
+  assign fit_notes = product.metafields.violet.fit_notes.value
+  assign delivery_note = product.metafields.violet.delivery_note.value
+  assign returns_note = product.metafields.violet.returns_note.value
+  assign availability_message = product.metafields.violet.availability_message.value
+-%}
+
+{%- if size_guide != blank or fit_notes != blank or delivery_note != blank or returns_note != blank or availability_message != blank -%}
+  {{ 'violet-product.css' | asset_url | stylesheet_tag }}
+
+  <div class="violet-size-confidence" {{ block.shopify_attributes }}>
+    <div class="violet-size-confidence__header">
+      {%- if block.settings.heading != blank -%}
+        <h3 class="violet-size-confidence__heading h4">{{ block.settings.heading | escape }}</h3>
+      {%- endif -%}
+
+      {%- if availability_message != blank -%}
+        <p class="violet-size-confidence__availability">
+          <span class="violet-size-confidence__dot" aria-hidden="true"></span>
+          {{ availability_message | escape }}
+        </p>
+      {%- endif -%}
+    </div>
+
+    <div class="violet-size-confidence__items">
+      {%- if size_guide != blank -%}
+        <a class="violet-size-confidence__item violet-size-confidence__item--link" href="{{ size_guide.url }}">
+          <span class="violet-size-confidence__icon" aria-hidden="true"></span>
+          <span class="violet-size-confidence__label">{{ 'violet.product.size_guide' | t }}</span>
+          <span class="violet-size-confidence__value">
+            {{ size_guide.title | default: 'violet.product.view_size_guide' | t | escape }}
+          </span>
+        </a>
+      {%- endif -%}
+
+      {%- if fit_notes != blank -%}
+        <div class="violet-size-confidence__item">
+          <span class="violet-size-confidence__icon" aria-hidden="true"></span>
+          <span class="violet-size-confidence__label">{{ 'violet.product.fit_notes' | t }}</span>
+          <span class="violet-size-confidence__value">{{ fit_notes | newline_to_br }}</span>
+        </div>
+      {%- endif -%}
+
+      {%- if delivery_note != blank -%}
+        <div class="violet-size-confidence__item">
+          <span class="violet-size-confidence__icon" aria-hidden="true"></span>
+          <span class="violet-size-confidence__label">{{ 'violet.product.delivery' | t }}</span>
+          <span class="violet-size-confidence__value">{{ delivery_note | escape }}</span>
+        </div>
+      {%- endif -%}
+
+      {%- if returns_note != blank -%}
+        <div class="violet-size-confidence__item">
+          <span class="violet-size-confidence__icon" aria-hidden="true"></span>
+          <span class="violet-size-confidence__label">{{ 'violet.product.returns' | t }}</span>
+          <span class="violet-size-confidence__value">{{ returns_note | escape }}</span>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}

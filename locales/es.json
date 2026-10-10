@@ -221,6 +221,10 @@
     }
   },
   "templates": {
+    "404": {
+      "title": "Página no encontrada",
+      "subtext": "404"
+    },
     "search": {
       "no_results": "No se encontraron resultados para “{{ terms }}” Revisa la ortografía o usa una palabra o frase diferente.",
       "results_with_count": {
@@ -269,10 +273,6 @@
         "error_heading": "Por favor, ajusta lo siguiente:",
         "title": "Formulario de contacto"
       }
-    },
-    "404": {
-      "title": "Página no encontrada",
-      "subtext": "404"
     }
   },
   "sections": {
@@ -539,6 +539,68 @@
       "send_on_label": "Enviar el (opcional)",
       "expanded": "Formulario del destinatario de la tarjeta de regalo expandido",
       "collapsed": "Formulario del destinatario de tarjeta de regalo contraído"
+    }
+  },
+  "violet": {
+    "breadcrumbs": {
+      "home": "Inicio"
+    },
+    "cart": {
+      "empty_eyebrow": "Carrito limpio",
+      "empty_title": "Todavía no hay nada en el carrito",
+      "empty_text": "Puedes volver al catálogo o entrar por colecciones. Sin prisas, sin avisos falsos.",
+      "empty_primary": "Ver productos",
+      "empty_collections": "Ver colecciones",
+      "empty_blog": "Leer historias de la marca",
+      "gift_title": "Añade un regalo",
+      "gift_button": "Añadir regalo",
+      "add": "Añadir",
+      "cross_sell_title": "También puede encajar",
+      "free_shipping_remaining_html": "Te faltan {{ amount }} para envío gratis.",
+      "free_shipping_success": "Ya tienes envío gratis.",
+      "trust_message": "Pedido revisado con cuidado antes de enviarse. Sin urgencias falsas: compra solo lo que encaje contigo."
+    },
+    "product": {
+      "gift_occasions_heading": "Perfecto para regalar",
+      "faq_heading": "Preguntas frecuentes",
+      "view_product": "Ver producto",
+      "available": "Disponible",
+      "size_guide": "Guía de tallas",
+      "view_size_guide": "Ver guía de tallas",
+      "fit_notes": "Talla y ajuste",
+      "availability": "Disponibilidad",
+      "delivery": "Envío",
+      "returns": "Devoluciones"
+    },
+    "collection": {
+      "quick_view": "Vista rápida",
+      "quick_view_for": "Vista rápida de {{ product }}",
+      "view_full_product": "Ver ficha completa",
+      "available": "Disponible",
+      "options_available": "Opciones disponibles",
+      "choose_options_note": "Elige opciones en la ficha del producto.",
+      "active_filters": "{{ count }} filtros activos",
+      "view_label": "Vista",
+      "view_standard": "Estandar",
+      "view_editorial": "Editorial",
+      "badges_label": "Badges del producto"
+    },
+    "blog": {
+      "empty_editor_note": "Elige un blog con articulos reales para mostrar esta seccion."
+    },
+    "footer": {
+      "contact": "Contacto",
+      "legal": "Legal",
+      "social": "Redes"
+    },
+    "shop_the_look": {
+      "products_label": "Productos de este look",
+      "view_product": "Ver {{ product }}"
+    },
+    "navigation": {
+      "featured_links": "Enlaces destacados de navegacion",
+      "mobile_bar": "Navegacion comercial movil",
+      "mega_intro": "Explora todo el catalogo o entra directo a un producto destacado."
     }
   }
 }

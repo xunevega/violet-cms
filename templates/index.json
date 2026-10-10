@@ -1,75 +1,282 @@
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
-      "blocks": {
-        "heading": {
-          "type": "heading",
-          "settings": {
-            "heading": "Browse our latest products",
-            "heading_size": "h0"
-          }
-        },
-        "button": {
-          "type": "buttons",
-          "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
-          }
-        }
-      },
-      "block_order": [
-        "heading",
-        "button"
-      ],
+    "violet_hero": {
+      "type": "violet-hero",
       "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
-        "image_behavior": "none",
-        "desktop_content_alignment": "center",
+        "overlay_opacity": 35,
+        "eyebrow": "Violet Moon",
+        "heading": "Violet Moon: producto real, imagen y relato",
+        "text": "<p>Una portada para figuras, tazas, bolsos y piezas decorativas con contexto visual, ficha cuidada y compra clara.</p>",
+        "heading_size": "h0",
+        "content_position": "left",
+        "button_label_1": "Ver tienda",
+        "button_link_1": "shopify://collections/all",
+        "button_label_2": "Ver colecciones",
+        "button_link_2": "shopify://collections",
+        "trust_text": "Productos con imagen real, ficha cuidada y compra clara.",
+        "featured_label": "Destacado",
         "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
+        "featured_product": "taza-te-gato-kawaii-ceramica-tapa-cuchara",
+        "featured_collection": ""
       }
     },
-    "featured_collection": {
-      "type": "featured-collection",
+    "violet_showcase_bolsos": {
+      "type": "violet-collection-showcase",
       "settings": {
-        "title": "Featured products",
-        "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
+        "collection": "bolsos-de-mano",
+        "eyebrow": "Bolsos de mano Estilo CHIC/Elegant",
+        "heading": "",
+        "text": "<p>Bolsos de mano pequeños y elegantes. Un estilo distinto y más clásico. Pero hay que estar preparada para todo.</p>",
+        "heading_style": "script",
+        "button_label": "Conocer",
+        "button_link": "",
+        "banner_image": "shopify://shop_images/webolsos.png",
+        "products_to_show": 6,
+        "image_ratio": "square",
+        "image_position": "right",
+        "color_scheme": "scheme-1",
+        "separator": "none",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "violet_showcase_geometrico": {
+      "type": "violet-collection-showcase",
+      "settings": {
+        "collection": "geometrico",
+        "eyebrow": "5 Nuevos diseños de bolsos. Estilo Geométrico/manga/kawaii",
+        "heading": "",
+        "text": "<p>Ni sabes lo que es ni lo sabemos nosotros. La cosa es que mola. Es rollo manga anime ilustración con toques geométricos y rollo años 50´s.</p>",
+        "heading_style": "gradient",
+        "button_label": "Conocer",
+        "button_link": "",
+        "banner_image": "shopify://shop_images/muneca.png",
+        "products_to_show": 6,
+        "image_ratio": "square",
+        "image_position": "left",
+        "color_scheme": "scheme-2",
+        "separator": "top",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
+    "violet_showcase_doodle": {
+      "type": "violet-collection-showcase",
+      "settings": {
+        "collection": "doodle",
+        "eyebrow": "Playeras ALLStars",
+        "heading": "Molonas botas altas",
+        "text": "<p>Los Doodles son simpáticos dibujitos muy sencillos todos juntos en armonía ¡Oh puede que no!</p>",
+        "heading_style": "solid",
+        "button_label": "Colección",
+        "button_link": "",
+        "banner_image": "shopify://shop_images/baner.png",
+        "products_to_show": 6,
+        "image_ratio": "square",
+        "image_position": "right",
+        "color_scheme": "scheme-1",
+        "separator": "top",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
+    "violet_media_studio": {
+      "type": "violet-media-studio",
+      "settings": {
+        "eyebrow": "Violet multimedia",
+        "heading": "Imagen, video y producto en la misma casa",
+        "text": "<p>Una zona para enseñar movimiento, imagenes y enlaces comerciales sin convertir la home en una plantilla pesada.</p>",
+        "heading_size": "h1",
+        "button_label": "Ver productos",
+        "button_link": "shopify://collections/all",
+        "video_label": "Video editorial Violet Moon",
+        "card_1_title": "Bolsos ilustrados",
+        "card_1_text": "Piezas visuales para probar ficha premium, carrito y compra real.",
+        "card_1_link": "shopify://products/bolso-mano-chic-colibri-estampado-floral",
+        "card_2_title": "Tazas y rituales",
+        "card_2_text": "Producto cotidiano con una capa visual mas cuidada.",
+        "card_2_link": "shopify://products/taza-te-gato-kawaii-ceramica-tapa-cuchara",
+        "card_3_title": "Bolsos ilustrados",
+        "card_3_text": "Colecciones que funcionan mejor cuando tienen contexto.",
+        "card_3_link": "shopify://products/bolso-mano-chic-colibri-estampado-floral",
+        "color_scheme": "scheme-1",
+        "padding_top": 52,
+        "padding_bottom": 52
+      }
+    },
+    "violet_product_carousel": {
+      "type": "violet-product-carousel",
+      "settings": {
+        "eyebrow": "Seleccion Violet",
+        "heading": "Productos para mirar mejor",
+        "heading_size": "h1",
+        "text": "<p>Un carrusel ligero para descubrir productos reales sin convertir la home en una plantilla pesada.</p>",
+        "products": [],
         "collection": "all",
         "products_to_show": 8,
         "columns_desktop": 4,
-        "color_scheme": "scheme-1",
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "enable_desktop_slider": false,
-        "swipe_on_mobile": false,
         "image_ratio": "adapt",
         "image_shape": "default",
         "show_secondary_image": true,
         "show_vendor": false,
         "show_rating": false,
+        "show_violet_badges": true,
+        "enable_violet_quick_view": true,
         "quick_add": "none",
-        "columns_mobile": "2",
-        "padding_top": 44,
+        "button_label": "Ver tienda",
+        "button_link": "shopify://collections/all",
+        "color_scheme": "scheme-1",
+        "padding_top": 52,
+        "padding_bottom": 44
+      }
+    },
+    "violet_featured_product": {
+      "type": "violet-featured-product",
+      "settings": {
+        "product": "taza-te-gato-kawaii-ceramica-tapa-cuchara",
+        "image": "",
+        "eyebrow": "Producto destacado",
+        "heading": "Una pieza con ficha, contexto y compra clara",
+        "text": "<p>Un bloque editorial para dar protagonismo a un producto real sin duplicar toda la ficha. Sirve para contar por que encaja, enseñar precio y llevar a la ficha completa.</p>",
+        "heading_size": "h1",
+        "show_metafield_highlights": true,
+        "enable_quick_add": true,
+        "primary_button_label": "Ver ficha completa",
+        "color_scheme": "scheme-1",
+        "padding_top": 52,
+        "padding_bottom": 52
+      }
+    },
+    "violet_shop_the_look": {
+      "type": "violet-shop-the-look",
+      "blocks": {
+        "look_1": {
+          "type": "look",
+          "settings": {
+            "image": "",
+            "label": "Look completo",
+            "title": "Un rincón Violet completo",
+            "text": "<p>Una combinación real de bolso, taza y luz decorativa para probar narrativa, carrito y ficha premium.</p>",
+            "product_1": "bolso-mano-chic-colibri-estampado-floral",
+            "product_1_x": 42,
+            "product_1_y": 46,
+            "product_2": "taza-te-gato-kawaii-ceramica-tapa-cuchara",
+            "product_2_x": 62,
+            "product_2_y": 58,
+            "product_3": "1pc-lampara-nocturna-inteligente-lampara-de-dormir-recargable-por-usb-lampara-de-escritorio-con-regulacion-de-iluminacion-de-3-velocidades-luz-de-ajuste-de-brillo-en-3-niveles-lampara-antiestres-luz-nocturna-para-mesita-de-noche-adecuada-para-dormi",
+            "product_3_x": 73,
+            "product_3_y": 35,
+            "button_label": "Ver tienda",
+            "button_link": "shopify://collections/all"
+          }
+        }
+      },
+      "block_order": [
+        "look_1"
+      ],
+      "settings": {
+        "eyebrow": "Shop the look",
+        "heading": "Rincones completos para explorar",
+        "text": "<p>Escenas visuales con productos reales y puntos clicables: menos escaparate falso, mas contexto para mirar y decidir.</p>",
+        "heading_size": "h1",
+        "columns_desktop": "2",
+        "max_items": 2,
+        "products_per_look": 3,
+        "color_scheme": "scheme-1",
+        "padding_top": 52,
+        "padding_bottom": 52
+      }
+    },
+    "violet_editorial": {
+      "type": "violet-editorial-grid",
+      "blocks": {
+        "story": {
+          "type": "editorial_card",
+          "settings": {
+            "title": "Historias para descubrir",
+            "text": "<p>Presenta colecciones, materiales, inspiracion o universos visuales sin tocar codigo.</p>",
+            "button_label": "Ver colecciones",
+            "button_link": "shopify://collections"
+          }
+        },
+        "gifting": {
+          "type": "editorial_card",
+          "settings": {
+            "title": "Ideas para regalar",
+            "text": "<p>Explica cuándo encaja cada pieza sin inventar urgencias ni opiniones de mentira.</p>",
+            "button_label": "Explorar regalos",
+            "button_link": "shopify://collections/all"
+          }
+        },
+        "craft": {
+          "type": "editorial_card",
+          "settings": {
+            "title": "Detalles que importan",
+            "text": "<p>Da espacio a beneficios, cuidados, confianza y narrativa de marca.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "story",
+        "gifting",
+        "craft"
+      ],
+      "settings": {
+        "eyebrow": "Entrada",
+        "heading": "Una tienda con mas contexto",
+        "text": "<p>Violet CMS convierte la home en una portada comercial: clara, visual y editable.</p>",
+        "heading_size": "h1",
+        "columns_desktop": "3",
+        "color_scheme": "scheme-1",
+        "padding_top": 52,
+        "padding_bottom": 52
+      }
+    },
+    "violet_logos": {
+      "type": "violet-brand-logos",
+      "settings": {
+        "eyebrow": "Violet CMS",
+        "heading": "Marcas, colecciones y universos visuales",
+        "heading_size": "h2",
+        "max_items": 8,
+        "color_scheme": "scheme-1",
+        "padding_top": 36,
         "padding_bottom": 36
+      }
+    },
+    "featured_blog": {
+      "type": "featured-blog",
+      "settings": {
+        "blog": "news",
+        "post_limit": 3,
+        "eyebrow": "Blog",
+        "heading": "Diario Violet",
+        "text": "<p>Historias, guias y contexto real para acompanar productos y colecciones.</p>",
+        "heading_size": "h1",
+        "columns_desktop": 3,
+        "color_scheme": "scheme-1",
+        "show_view_all": true,
+        "show_image": true,
+        "show_date": true,
+        "show_author": false,
+        "padding_top": 52,
+        "padding_bottom": 52
       }
     }
   },
   "order": [
-    "image_banner",
-    "featured_collection"
+    "violet_hero",
+    "violet_showcase_bolsos",
+    "violet_showcase_geometrico",
+    "violet_showcase_doodle",
+    "violet_media_studio",
+    "violet_editorial",
+    "violet_product_carousel",
+    "violet_featured_product",
+    "violet_shop_the_look",
+    "violet_logos",
+    "featured_blog"
   ]
 }

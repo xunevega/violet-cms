@@ -1,0 +1,189 @@
+{{ 'violet-cms-sections.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign showcase_collection = section.settings.collection
+  if showcase_collection == blank
+    assign showcase_collection = collections['all']
+  endif
+  assign showcase_heading = section.settings.heading | default: showcase_collection.title
+  assign showcase_link = section.settings.button_link
+  if showcase_link == blank
+    assign showcase_link = showcase_collection.url
+  endif
+-%}
+
+{%- if showcase_collection != blank -%}
+  <div class="violet-section violet-section--separator-{{ section.settings.separator }} violet-section--visible-{{ section.settings.visibility }} color-{{ section.settings.color_scheme }} gradient">
+    <div class="page-width violet-section__inner violet-section__inner--{{ section.settings.section_width }} violet-section__inner--align-{{ section.settings.content_alignment }}" style="--violet-padding-top: {{ section.settings.padding_top }}px; --violet-padding-bottom: {{ section.settings.padding_bottom }}px;">
+      <div class="violet-collection-showcase__layout violet-collection-showcase__layout--{{ section.settings.image_position }}">
+        <div class="violet-collection-showcase__copy violet-collection-showcase__copy--{{ section.settings.heading_style }}">
+          <span class="violet-collection-showcase__marker" aria-hidden="true"></span>
+          {%- if section.settings.eyebrow != blank -%}
+            <p class="violet-section__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+          {%- endif -%}
+          {%- if showcase_heading != blank -%}
+            <h2 class="violet-section__title violet-collection-showcase__title {{ section.settings.heading_size }}">{{ showcase_heading }}</h2>
+          {%- endif -%}
+          {%- if section.settings.text != blank -%}
+            <div class="violet-section__text rte">{{ section.settings.text }}</div>
+          {%- endif -%}
+          {%- if section.settings.button_label != blank and showcase_link != blank -%}
+            <a class="button button--secondary violet-collection-showcase__button" href="{{ showcase_link }}">
+              {{ section.settings.button_label | escape }}
+              <span class="svg-wrapper">{{- 'icon-arrow.svg' | inline_asset_content -}}</span>
+            </a>
+          {%- endif -%}
+        </div>
+
+        {%- if section.settings.banner_image != blank -%}
+          <a class="violet-collection-showcase__banner" href="{{ showcase_link }}">
+            {{
+              section.settings.banner_image
+              | image_url: width: 1600
+              | image_tag: loading: 'lazy', widths: '480, 720, 960, 1200, 1600', alt: section.settings.banner_image.alt | default: showcase_heading
+            }}
+          </a>
+        {%- else -%}
+          <div class="violet-collection-showcase__images" role="list">
+            {%- for product in showcase_collection.products limit: section.settings.products_to_show -%}
+              <a
+                class="violet-collection-showcase__image-item violet-collection-showcase__image-item--{{ section.settings.image_ratio }}"
+                href="{{ product.url }}"
+                role="listitem"
+              >
+                {%- if product.featured_image != blank -%}
+                  {{
+                    product.featured_image
+                    | image_url: width: 700
+                    | image_tag: loading: 'lazy', widths: '240, 360, 480, 700', alt: product.featured_image.alt | default: product.title
+                  }}
+                {%- else -%}
+                  {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                {%- endif -%}
+              </a>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Violet: escaparate",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "collection", "id": "collection", "label": "Coleccion" },
+    { "type": "text", "id": "eyebrow", "label": "Etiqueta", "default": "Coleccion" },
+    { "type": "inline_richtext", "id": "heading", "label": "Titulo alternativo" },
+    { "type": "richtext", "id": "text", "label": "Texto" },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Tamano del titulo",
+      "options": [
+        { "value": "h2", "label": "Pequeno" },
+        { "value": "h1", "label": "Medio" },
+        { "value": "h0", "label": "Grande" }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "select",
+      "id": "heading_style",
+      "label": "Estilo del titulo",
+      "info": "Da variedad visual entre franjas de colecciones",
+      "options": [
+        { "value": "solid", "label": "Solido" },
+        { "value": "script", "label": "Manuscrito" },
+        { "value": "gradient", "label": "Degradado" }
+      ],
+      "default": "solid"
+    },
+    { "type": "text", "id": "button_label", "label": "Boton", "default": "Conocer" },
+    { "type": "url", "id": "button_link", "label": "Enlace del boton" },
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "Banner de coleccion (ilustracion + productos)",
+      "info": "Opcional. Si se sube, reemplaza la fila de fotos de producto por esta imagen unica."
+    },
+    { "type": "range", "id": "products_to_show", "min": 2, "max": 10, "step": 1, "label": "Productos a mostrar (si no hay banner)", "default": 6 },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Formato de imagen",
+      "options": [
+        { "value": "square", "label": "Cuadrada" },
+        { "value": "portrait", "label": "Vertical" }
+      ],
+      "default": "square"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Posicion de las imagenes",
+      "options": [
+        { "value": "right", "label": "Derecha" },
+        { "value": "left", "label": "Izquierda" }
+      ],
+      "default": "right"
+    },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-1" },
+    { "type": "header", "content": "Violet layout" },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Ancho de seccion",
+      "options": [
+        { "value": "narrow", "label": "Estrecho" },
+        { "value": "page", "label": "Normal" },
+        { "value": "wide", "label": "Ancho" },
+        { "value": "full", "label": "Completo" }
+      ],
+      "default": "page"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Alineacion del contenido",
+      "options": [
+        { "value": "left", "label": "Izquierda" },
+        { "value": "center", "label": "Centro" },
+        { "value": "right", "label": "Derecha" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "separator",
+      "label": "Linea separadora",
+      "options": [
+        { "value": "none", "label": "Sin linea" },
+        { "value": "top", "label": "Arriba" },
+        { "value": "bottom", "label": "Abajo" },
+        { "value": "both", "label": "Arriba y abajo" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "select",
+      "id": "visibility",
+      "label": "Visibilidad",
+      "options": [
+        { "value": "all", "label": "Movil y escritorio" },
+        { "value": "mobile", "label": "Solo movil" },
+        { "value": "desktop", "label": "Solo escritorio" }
+      ],
+      "default": "all"
+    },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding superior", "default": 52 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding inferior", "default": 52 }
+  ],
+  "presets": [
+    { "name": "Violet: escaparate" }
+  ]
+}
+{% endschema %}

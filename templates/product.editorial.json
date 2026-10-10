@@ -1,0 +1,154 @@
+{
+  "sections": {
+    "violet-breadcrumbs": {
+      "type": "violet-breadcrumbs",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 16,
+        "padding_bottom": 0
+      }
+    },
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "vendor": {
+          "type": "text",
+          "settings": {
+            "text": "{{ product.vendor }}",
+            "text_style": "uppercase"
+          }
+        },
+        "title": {
+          "type": "title"
+        },
+        "price": {
+          "type": "price"
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle"
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector"
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true
+          }
+        },
+        "violet_trust_badges": {
+          "type": "violet_trust_badges",
+          "settings": {}
+        },
+        "violet_story": {
+          "type": "violet_story",
+          "settings": {
+            "story_heading": "Historia del producto",
+            "inspiration_heading": "Inspiracion"
+          }
+        },
+        "violet_materials_care": {
+          "type": "violet_materials_care",
+          "settings": {
+            "materials_heading": "Materiales y cuidados"
+          }
+        },
+        "violet_benefits": {
+          "type": "violet_benefits",
+          "settings": {}
+        },
+        "violet_gift_occasions": {
+          "type": "violet_gift_occasions",
+          "settings": {
+            "heading": "Ideas de regalo"
+          }
+        },
+        "description": {
+          "type": "description"
+        },
+        "violet_faqs": {
+          "type": "violet_faqs",
+          "settings": {
+            "faq_heading": "Preguntas frecuentes"
+          }
+        },
+        "violet_size_confidence": {
+          "type": "violet_size_confidence",
+          "settings": {
+            "heading": "Tallas y confianza"
+          }
+        },
+        "share": {
+          "type": "share",
+          "settings": {
+            "share_label": "Compartir"
+          }
+        }
+      },
+      "block_order": [
+        "vendor",
+        "title",
+        "price",
+        "variant_picker",
+        "quantity_selector",
+        "buy_buttons",
+        "violet_size_confidence",
+        "violet_trust_badges",
+        "description",
+        "violet_story",
+        "violet_materials_care",
+        "violet_benefits",
+        "violet_gift_occasions",
+        "violet_faqs",
+        "share"
+      ],
+      "settings": {
+        "enable_sticky_info": true,
+        "color_scheme": "scheme-1",
+        "media_position": "left",
+        "gallery_layout": "columns",
+        "media_size": "large",
+        "constrain_to_viewport": true,
+        "media_fit": "cover",
+        "image_zoom": "lightbox",
+        "mobile_thumbnails": "show",
+        "hide_variants": true,
+        "enable_sticky_atc": true,
+        "enable_video_looping": true,
+        "padding_top": 36,
+        "padding_bottom": 12
+      }
+    },
+    "related_products": {
+      "type": "related-products",
+      "settings": {
+        "eyebrow": "Sigue explorando",
+        "heading": "Tambien puede encajar",
+        "heading_size": "h1",
+        "products_to_show": 8,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "show_violet_badges": true,
+        "enable_violet_quick_view": true,
+        "padding_top": 52,
+        "padding_bottom": 52
+      }
+    }
+  },
+  "order": [
+    "violet-breadcrumbs",
+    "main",
+    "related_products"
+  ]
+}

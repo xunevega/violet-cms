@@ -1,0 +1,54 @@
+{% comment %}
+  Violet CMS — Optional gift product in cart.
+  Appi contract: shop.metafields.violet.cart_gift_product_handle.
+  Theme editor fallback: settings.violet_gift_product.
+{% endcomment %}
+{{ 'violet-cart.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign gift_product_handle = shop.metafields.violet.cart_gift_product_handle.value | default: shop.metafields.violet.cart_gift_product_handle
+  assign gift_product = all_products[gift_product_handle]
+  if gift_product == blank
+    assign gift_product = settings.violet_gift_product
+  endif
+  assign gift_in_cart = false
+
+  if gift_product != blank
+    for item in cart.items
+      if item.product.id == gift_product.id
+        assign gift_in_cart = true
+      endif
+    endfor
+  endif
+-%}
+
+{%- if cart != empty and gift_product != blank and gift_in_cart == false -%}
+  {%- assign gift_variant = gift_product.selected_or_first_available_variant -%}
+  {%- if gift_variant != blank and gift_variant.available -%}
+    <div class="violet-cart-panel">
+      <h3 class="violet-cart-panel__title h4">{{ 'violet.cart.gift_title' | t }}</h3>
+      <violet-cart-add class="violet-cart-gift-line">
+        <a class="violet-cart-gift-line__media" href="{{ gift_product.url }}" tabindex="-1" aria-hidden="true">
+          {%- if gift_product.featured_media -%}
+            {{ gift_product.featured_media | image_url: width: 180 | image_tag: loading: 'lazy', width: 72, height: 72, alt: gift_product.featured_media.alt }}
+          {%- endif -%}
+        </a>
+        <div class="violet-cart-gift-line__content">
+          <p class="violet-cart-gift-line__title">
+            <a href="{{ gift_product.url }}">{{ gift_product.title | escape }}</a>
+          </p>
+          <p class="violet-cart-gift-line__price">{{ gift_variant.price | money }}</p>
+          <button
+            type="button"
+            class="button button--secondary violet-cart-gift-line__button"
+            data-violet-cart-add
+            data-variant-id="{{ gift_variant.id }}"
+          >
+            {{ 'violet.cart.gift_button' | t }}
+          </button>
+        </div>
+        <p class="violet-cart-gift-line__error" data-violet-cart-error hidden role="alert"></p>
+      </violet-cart-add>
+    </div>
+  {%- endif -%}
+{%- endif -%}

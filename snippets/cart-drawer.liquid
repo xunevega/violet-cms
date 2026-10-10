@@ -31,7 +31,6 @@
         <div class="drawer__inner-empty">
           <div class="cart-drawer__warnings center{% if settings.cart_drawer_collection != blank %} cart-drawer__warnings--has-collection{% endif %}">
             <div class="cart-drawer__empty-content">
-              <h2 class="cart__empty-text">{{ 'sections.cart.empty' | t }}</h2>
               <button
                 class="drawer__close"
                 type="button"
@@ -42,9 +41,8 @@
                   {{- 'icon-close.svg' | inline_asset_content -}}
                 </span>
               </button>
-              <a href="{{ routes.all_products_collection_url }}" class="button">
-                {{ 'general.continue_shopping' | t }}
-              </a>
+
+              {% render 'violet-cart-empty', context: 'drawer' %}
 
               {%- if shop.customer_accounts_enabled and customer == null -%}
                 <p class="cart__login-title h3">{{ 'sections.cart.login.title' | t }}</p>
@@ -62,7 +60,17 @@
         </div>
       {%- endif -%}
       <div class="drawer__header">
-        <h2 class="drawer__heading">{{ 'sections.cart.title' | t }}</h2>
+        <div class="violet-cart-drawer-heading">
+          <h2 class="drawer__heading">{{ 'sections.cart.title' | t }}</h2>
+          <p class="violet-cart-drawer-heading__count">
+            {{ cart.item_count }}
+            {%- if cart.item_count == 1 -%}
+              item
+            {%- else -%}
+              items
+            {%- endif -%}
+          </p>
+        </div>
         <button
           class="drawer__close"
           type="button"
@@ -487,7 +495,14 @@
           <div id="CartDrawer-CartErrors" role="alert"></div>
         </form>
       </cart-drawer-items>
+
       <div class="drawer__footer">
+		        {%- if cart != empty -%}
+		          {% render 'violet-free-shipping' %}
+		          {% render 'violet-cart-gift' %}
+		          {% render 'violet-cart-cross-sell' %}
+		        {%- endif -%}
+
         {%- if settings.show_cart_note -%}
           <details id="Details-CartDrawer">
             <summary>
@@ -574,11 +589,16 @@
 
         <!-- CTAs -->
 
-        <div class="cart__ctas" {{ block.shopify_attributes }}>
+        {% render 'violet-cart-trust' %}
+
+        <div class="cart__ctas violet-cart-ctas" {{ block.shopify_attributes }}>
+          <a class="button button--secondary violet-cart-ctas__view" href="{{ routes.cart_url }}">
+            {{ 'sections.quick_order_list.view_cart' | t }}
+          </a>
           <button
             type="submit"
             id="CartDrawer-Checkout"
-            class="cart__checkout-button button"
+            class="cart__checkout-button button violet-cart-ctas__checkout"
             name="checkout"
             form="CartDrawer-Form"
             {% if cart == empty %}

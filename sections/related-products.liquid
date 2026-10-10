@@ -1,6 +1,7 @@
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
-{{ 'section-related-products.css' | asset_url | stylesheet_tag }}
+{{ 'violet-product-carousel.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'violet-product-carousel.js' | asset_url }}" defer="defer"></script>
 
 {% if section.settings.image_shape == 'blob' %}
   {{ 'mask-blobs.css' | asset_url | stylesheet_tag }}
@@ -21,39 +22,78 @@
 {%- endstyle -%}
 
 <div class="color-{{ section.settings.color_scheme }} gradient">
-  <product-recommendations
-    class="related-products page-width section-{{ section.id }}-padding isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-    data-url="{{ routes.product_recommendations_url }}?limit={{ section.settings.products_to_show }}"
-    data-section-id="{{ section.id }}"
-    data-product-id="{{ product.id }}"
+  <violet-product-carousel
+    class="violet-product-carousel"
+    style="
+      --violet-padding-top: {{ section.settings.padding_top }}px;
+      --violet-padding-bottom: {{ section.settings.padding_bottom }}px;
+      --violet-carousel-columns: {{ section.settings.columns_desktop }};
+    "
   >
-    {% if recommendations.performed and recommendations.products_count > 0 %}
-      <h2 class="related-products__heading inline-richtext {{ section.settings.heading_size }}">
-        {{ section.settings.heading }}
-      </h2>
-      <ul
-        class="grid product-grid grid--{{ section.settings.columns_desktop }}-col-desktop grid--{{ section.settings.columns_mobile }}-col-tablet-down"
-        role="list"
-      >
-        {% assign skip_card_product_styles = false %}
-        {% for recommendation in recommendations.products %}
-          <li class="grid__item">
-            {% render 'card-product',
-              card_product: recommendation,
-              media_aspect_ratio: section.settings.image_ratio,
-              image_shape: section.settings.image_shape,
-              show_secondary_image: section.settings.show_secondary_image,
-              show_vendor: section.settings.show_vendor,
-              show_rating: section.settings.show_rating,
-              skip_styles: skip_card_product_styles,
-              product_view_context: 'recommendation'
-            %}
-          </li>
-          {%- assign skip_card_product_styles = true -%}
-        {% endfor %}
-      </ul>
-    {% endif %}
-  </product-recommendations>
+    <product-recommendations
+      class="violet-product-carousel__inner page-width isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+      data-url="{{ routes.product_recommendations_url }}?limit={{ section.settings.products_to_show }}"
+      data-section-id="{{ section.id }}"
+      data-product-id="{{ product.id }}"
+    >
+      {% if recommendations.performed and recommendations.products_count > 0 %}
+        <div class="violet-product-carousel__header">
+          <div class="violet-product-carousel__copy">
+            {%- if section.settings.eyebrow != blank -%}
+              <p class="violet-product-carousel__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+            {%- endif -%}
+            <h2 class="violet-product-carousel__title {{ section.settings.heading_size }}">
+              {{ section.settings.heading }}
+            </h2>
+          </div>
+
+          <div class="violet-product-carousel__controls" aria-label="{{ 'general.slider.name' | t }}">
+            <button
+              type="button"
+              class="violet-product-carousel__button violet-product-carousel__button--prev"
+              data-violet-carousel-prev
+              aria-label="{{ 'general.slider.previous_slide' | t }}"
+            >
+              <span class="svg-wrapper">{{ 'icon-caret.svg' | inline_asset_content }}</span>
+            </button>
+            <button
+              type="button"
+              class="violet-product-carousel__button violet-product-carousel__button--next"
+              data-violet-carousel-next
+              aria-label="{{ 'general.slider.next_slide' | t }}"
+            >
+              <span class="svg-wrapper">{{ 'icon-caret.svg' | inline_asset_content }}</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="violet-product-carousel__viewport" data-violet-carousel-viewport>
+          <ul class="violet-product-carousel__track" role="list">
+            {% assign skip_card_product_styles = false %}
+            {% for recommendation in recommendations.products %}
+              <li class="violet-product-carousel__slide grid__item">
+                {% render 'card-product',
+                  card_product: recommendation,
+                  media_aspect_ratio: section.settings.image_ratio,
+                  image_shape: section.settings.image_shape,
+                  show_secondary_image: section.settings.show_secondary_image,
+                  show_vendor: section.settings.show_vendor,
+                  show_rating: section.settings.show_rating,
+                  skip_styles: skip_card_product_styles,
+                  section_id: section.id,
+                  show_violet_badges: section.settings.show_violet_badges,
+                  violet_badge_limit: 2,
+                  enable_violet_quick_view: section.settings.enable_violet_quick_view,
+                  product_view_context: 'recommendation'
+                %}
+              </li>
+              {%- assign skip_card_product_styles = true -%}
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    </product-recommendations>
+  </violet-product-carousel>
   {% if section.settings.image_shape == 'arch' %}
     {{ 'mask-arch.svg' | inline_asset_content }}
   {%- endif -%}
@@ -68,6 +108,12 @@
     {
       "type": "paragraph",
       "content": "t:sections.related-products.settings.paragraph__1.content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Etiqueta Violet",
+      "default": "Tambien en la casa"
     },
     {
       "type": "inline_richtext",
@@ -226,6 +272,18 @@
       "default": false,
       "label": "t:sections.related-products.settings.show_rating.label",
       "info": "t:sections.related-products.settings.show_rating.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_violet_badges",
+      "default": true,
+      "label": "Mostrar badges Violet"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_violet_quick_view",
+      "default": true,
+      "label": "Activar quick view Violet"
     },
     {
       "type": "header",

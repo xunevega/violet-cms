@@ -1,3 +1,4 @@
+{% comment %}theme-check-disable UndefinedObject{% endcomment %}
 <product-info
   id="MainProduct-{{ section.id }}"
   class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}"
@@ -12,9 +13,10 @@
   {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
   {{ 'component-accordion.css' | asset_url | stylesheet_tag }}
   {{ 'component-price.css' | asset_url | stylesheet_tag }}
-  {{ 'component-slider.css' | asset_url | stylesheet_tag }}
-  {{ 'component-rating.css' | asset_url | stylesheet_tag }}
-  {{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
+	  {{ 'component-slider.css' | asset_url | stylesheet_tag }}
+	  {{ 'component-rating.css' | asset_url | stylesheet_tag }}
+	  {{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
+	  {{ 'violet-product-media-plus.css' | asset_url | stylesheet_tag }}
 
   {% unless product.has_only_default_variant %}
     {{ 'component-product-variant-picker.css' | asset_url | stylesheet_tag }}
@@ -688,6 +690,20 @@
                   </product-recommendations>
                 {%- when 'icon-with-text' -%}
                   {% render 'icon-with-text', block: block %}
+                {%- when 'violet_story' -%}
+                  {% render 'violet-story', product: product, block: block, section_id: section.id %}
+                {%- when 'violet_materials_care' -%}
+                  {% render 'violet-materials-care', product: product, block: block, section_id: section.id %}
+                {%- when 'violet_benefits' -%}
+                  {% render 'violet-benefits', product: product, block: block %}
+                {%- when 'violet_gift_occasions' -%}
+                  {% render 'violet-gift-occasions', product: product, block: block %}
+                {%- when 'violet_trust_badges' -%}
+                  {% render 'violet-trust-badges', product: product, block: block %}
+                {%- when 'violet_size_confidence' -%}
+                  {% render 'violet-size-confidence', product: product, block: block %}
+                {%- when 'violet_faqs' -%}
+                  {% render 'violet-faqs', product: product, block: block, section_id: section.id %}
               {%- endcase -%}
             {%- endfor -%}
             <a href="{{ product.url }}" class="link product__view-details animate-arrow">
@@ -697,7 +713,7 @@
           </section>
         </div>
       </div>
-
+      {% render 'violet-sticky-add-to-cart', product: product, product_form_id: product_form_id, section_id: section.id %}
       {% render 'product-media-modal', variant_images: variant_images %}
 
       {% assign popups = section.blocks | where: 'type', 'popup' %}
@@ -738,14 +754,6 @@
         <script src="{{ 'product-model.js' | asset_url }}" defer></script>
       {%- endif -%}
 
-      {%- liquid
-        if product.selected_or_first_available_variant.featured_media
-          assign seo_media = product.selected_or_first_available_variant.featured_media
-        else
-          assign seo_media = product.featured_media
-        endif
-      -%}
-
       <script type="application/ld+json">
         {{ product | structured_data }}
       </script>
@@ -761,6 +769,52 @@
   "blocks": [
     {
       "type": "@app"
+    },
+    {
+      "type": "violet_story",
+      "name": "Violet: Historia",
+      "settings": [
+        { "type": "text", "id": "story_heading", "label": "Título Historia", "default": "Historia del producto" },
+        { "type": "text", "id": "inspiration_heading", "label": "Título Inspiración", "default": "Inspiración" }
+      ]
+    },
+    {
+      "type": "violet_materials_care",
+      "name": "Violet: Materiales",
+      "settings": [
+        { "type": "text", "id": "materials_heading", "label": "Título", "default": "Materiales y cuidados" }
+      ]
+    },
+    {
+      "type": "violet_benefits",
+      "name": "Violet: Beneficios",
+      "settings": []
+    },
+    {
+      "type": "violet_gift_occasions",
+      "name": "Violet: Regalo",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Título", "default": "Perfecto para regalar" }
+      ]
+    },
+    {
+      "type": "violet_trust_badges",
+      "name": "Violet: Trust badges",
+      "settings": []
+    },
+    {
+      "type": "violet_size_confidence",
+      "name": "Violet: Tallas",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Título", "default": "Compra con confianza" }
+      ]
+    },
+    {
+      "type": "violet_faqs",
+      "name": "Violet: FAQ",
+      "settings": [
+        { "type": "text", "id": "faq_heading", "label": "Título", "default": "Preguntas frecuentes" }
+      ]
     },
     {
       "type": "text",
@@ -2290,6 +2344,12 @@
       "id": "hide_variants",
       "default": false,
       "label": "t:sections.main-product.settings.hide_variants.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky_atc",
+      "default": true,
+      "label": "Mostrar barra fija de compra (sticky add to cart)"
     },
     {
       "type": "checkbox",

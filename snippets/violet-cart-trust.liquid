@@ -1,0 +1,23 @@
+{% comment %}
+  Violet CMS — honest cart trust message before checkout.
+  Appi contract: shop.metafields.violet.cart_trust_message.
+  Theme editor fallback: settings.violet_cart_trust_message.
+{% endcomment %}
+{{ 'violet-cart.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign trust_message = shop.metafields.violet.cart_trust_message.value | default: shop.metafields.violet.cart_trust_message
+  if trust_message == blank
+    assign trust_message = settings.violet_cart_trust_message
+  endif
+  if trust_message == blank
+    assign trust_message = 'violet.cart.trust_message' | t
+  endif
+-%}
+
+{%- if cart != empty and trust_message != blank -%}
+  <div class="violet-cart-trust" role="note">
+    <span class="violet-cart-trust__mark" aria-hidden="true"></span>
+    <p class="violet-cart-trust__text">{{ trust_message | escape }}</p>
+  </div>
+{%- endif -%}

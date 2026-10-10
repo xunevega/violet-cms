@@ -1,0 +1,226 @@
+{{ 'violet-cms-sections.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign featured_product = section.settings.featured_product
+  assign featured_collection = section.settings.featured_collection
+  assign media_alt = section.settings.image.alt | default: section.settings.heading
+-%}
+
+<section
+  class="violet-hero violet-hero--{{ section.settings.hero_height }} violet-section--separator-{{ section.settings.separator }} violet-section--visible-{{ section.settings.visibility }} color-{{ section.settings.color_scheme }} gradient"
+>
+  <div class="violet-hero__media">
+    {%- if section.settings.video != blank -%}
+      {{
+        section.settings.video
+        | video_tag:
+          image_size: '1800x',
+          autoplay: true,
+          loop: true,
+          muted: true,
+          controls: false,
+          class: 'violet-hero__video'
+      }}
+    {%- elsif section.settings.image != blank -%}
+      {{
+        section.settings.image
+        | image_url: width: 2400
+        | image_tag:
+          loading: 'eager',
+          fetchpriority: 'high',
+          widths: '750, 1100, 1500, 2000, 2400',
+          alt: media_alt
+      }}
+    {%- elsif featured_product.featured_image != blank -%}
+      {{
+        featured_product.featured_image
+        | image_url: width: 2400
+        | image_tag:
+          loading: 'eager',
+          fetchpriority: 'high',
+          widths: '750, 1100, 1500, 2000, 2400',
+          alt: featured_product.featured_image.alt
+      }}
+    {%- elsif featured_collection.featured_image != blank -%}
+      {{
+        featured_collection.featured_image
+        | image_url: width: 2400
+        | image_tag:
+          loading: 'eager',
+          fetchpriority: 'high',
+          widths: '750, 1100, 1500, 2000, 2400',
+          alt: featured_collection.featured_image.alt
+      }}
+    {%- else -%}
+      {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg violet-hero__placeholder' }}
+    {%- endif -%}
+  </div>
+
+  <div class="violet-hero__overlay" style="--violet-hero-overlay: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"></div>
+
+  <div class="page-width violet-hero__inner violet-hero__inner--{{ section.settings.content_position }}">
+    <div class="violet-hero__content">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="violet-section__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h1 class="violet-hero__title {{ section.settings.heading_size }}">{{ section.settings.heading }}</h1>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}
+        <div class="violet-hero__text rte">{{ section.settings.text }}</div>
+      {%- endif -%}
+
+      <div class="violet-hero__actions">
+        {%- if section.settings.button_label_1 != blank -%}
+          <a
+            class="button button--primary"
+            {% if section.settings.button_link_1 == blank %}
+              role="link" aria-disabled="true"
+            {% else %}
+              href="{{ section.settings.button_link_1 }}"
+            {% endif %}
+          >
+            {{ section.settings.button_label_1 | escape }}
+          </a>
+        {%- endif -%}
+        {%- if section.settings.button_label_2 != blank -%}
+          <a
+            class="button button--secondary"
+            {% if section.settings.button_link_2 == blank %}
+              role="link" aria-disabled="true"
+            {% else %}
+              href="{{ section.settings.button_link_2 }}"
+            {% endif %}
+          >
+            {{ section.settings.button_label_2 | escape }}
+          </a>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.trust_text != blank -%}
+        <p class="violet-hero__trust">{{ section.settings.trust_text | escape }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- if featured_product != blank or featured_collection != blank -%}
+      <aside class="violet-hero-feature">
+        {%- if featured_product != blank -%}
+          <a class="violet-hero-feature__link" href="{{ featured_product.url }}">
+            {%- if featured_product.featured_image != blank -%}
+              {{
+                featured_product.featured_image
+                | image_url: width: 360
+                | image_tag: loading: 'lazy', widths: '160, 240, 360', alt: featured_product.featured_image.alt
+              }}
+            {%- endif -%}
+            <span>
+              <span class="violet-hero-feature__label">{{ section.settings.featured_label | escape }}</span>
+              <span class="violet-hero-feature__title">{{ featured_product.title | escape }}</span>
+              <span class="violet-hero-feature__price">{{ featured_product.price | money }}</span>
+            </span>
+          </a>
+        {%- elsif featured_collection != blank -%}
+          <a class="violet-hero-feature__link" href="{{ featured_collection.url }}">
+            {%- if featured_collection.featured_image != blank -%}
+              {{
+                featured_collection.featured_image
+                | image_url: width: 360
+                | image_tag: loading: 'lazy', widths: '160, 240, 360', alt: featured_collection.featured_image.alt
+              }}
+            {%- endif -%}
+            <span>
+              <span class="violet-hero-feature__label">{{ section.settings.featured_label | escape }}</span>
+              <span class="violet-hero-feature__title">{{ featured_collection.title | escape }}</span>
+            </span>
+          </a>
+        {%- endif -%}
+      </aside>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Violet: hero",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Imagen" },
+    { "type": "video", "id": "video", "label": "Video" },
+    { "type": "range", "id": "overlay_opacity", "min": 0, "max": 80, "step": 5, "unit": "%", "label": "Oscurecer media", "default": 35 },
+    { "type": "text", "id": "eyebrow", "label": "Etiqueta", "default": "Violet Moon" },
+    { "type": "inline_richtext", "id": "heading", "label": "Titulo", "default": "Una tienda con historia, producto y contexto" },
+    { "type": "richtext", "id": "text", "label": "Texto", "default": "<p>Descubre productos cuidados, fichas completas y colecciones pensadas para comprar con calma.</p>" },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Tamano del titulo",
+      "options": [
+        { "value": "h1", "label": "Medio" },
+        { "value": "h0", "label": "Grande" },
+        { "value": "hxl", "label": "Muy grande" }
+      ],
+      "default": "h0"
+    },
+    {
+      "type": "select",
+      "id": "content_position",
+      "label": "Posicion del contenido",
+      "options": [
+        { "value": "left", "label": "Izquierda" },
+        { "value": "center", "label": "Centro" },
+        { "value": "right", "label": "Derecha" }
+      ],
+      "default": "left"
+    },
+    { "type": "text", "id": "button_label_1", "label": "Boton principal", "default": "Ver tienda" },
+    { "type": "url", "id": "button_link_1", "label": "Enlace principal" },
+    { "type": "text", "id": "button_label_2", "label": "Boton secundario", "default": "Ver colecciones" },
+    { "type": "url", "id": "button_link_2", "label": "Enlace secundario" },
+    { "type": "text", "id": "trust_text", "label": "Texto de confianza", "default": "Compra clara, producto con contexto y sin urgencias falsas." },
+    { "type": "product", "id": "featured_product", "label": "Producto destacado" },
+    { "type": "collection", "id": "featured_collection", "label": "Coleccion destacada" },
+    { "type": "text", "id": "featured_label", "label": "Etiqueta destacada", "default": "Destacado" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-3" },
+    { "type": "header", "content": "Violet layout" },
+    {
+      "type": "select",
+      "id": "hero_height",
+      "label": "Altura",
+      "options": [
+        { "value": "compact", "label": "Compacta" },
+        { "value": "medium", "label": "Media" },
+        { "value": "large", "label": "Grande" },
+        { "value": "screen", "label": "Casi pantalla completa" }
+      ],
+      "default": "large"
+    },
+    {
+      "type": "select",
+      "id": "separator",
+      "label": "Linea separadora",
+      "options": [
+        { "value": "none", "label": "Sin linea" },
+        { "value": "top", "label": "Arriba" },
+        { "value": "bottom", "label": "Abajo" },
+        { "value": "both", "label": "Arriba y abajo" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "select",
+      "id": "visibility",
+      "label": "Visibilidad",
+      "options": [
+        { "value": "all", "label": "Movil y escritorio" },
+        { "value": "mobile", "label": "Solo movil" },
+        { "value": "desktop", "label": "Solo escritorio" }
+      ],
+      "default": "all"
+    }
+  ],
+  "presets": [
+    { "name": "Violet: hero" }
+  ]
+}
+{% endschema %}

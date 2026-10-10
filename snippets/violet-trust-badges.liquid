@@ -1,0 +1,37 @@
+{% comment %}
+  Violet CMS — Trust badges: override del producto o, si no hay, los
+  badges globales de la tienda (shop.metafields.violet.trust_badges_default).
+  Accepts: product, block
+{% endcomment %}
+{%- liquid
+  assign badges = product.metafields.violet.trust_badges.value
+  if badges == blank
+    assign badges = shop.metafields.violet.trust_badges_default.value
+  endif
+-%}
+{%- if badges != blank -%}
+  {%- style -%}
+    .violet-trust-badges__text {
+      margin: 0.25rem 0 0;
+      font-size: 1.2rem;
+      color: rgba(var(--color-foreground), 0.7);
+    }
+  {%- endstyle -%}
+  <ul class="icon-with-text icon-with-text--horizontal list-unstyled violet-trust-badges" {{ block.shopify_attributes }}>
+    {%- for badge in badges -%}
+      <li class="icon-with-text__item">
+        {%- if badge.icon.value != blank -%}
+          {{
+            badge.icon.value
+            | image_url: width: 64
+            | image_tag: loading: 'lazy', width: 32, height: 32, alt: badge.title.value
+          }}
+        {%- endif -%}
+        <span class="h4 inline-richtext">{{ badge.title.value }}</span>
+        {%- if badge.text.value != blank -%}
+          <p class="violet-trust-badges__text">{{ badge.text.value }}</p>
+        {%- endif -%}
+      </li>
+    {%- endfor -%}
+  </ul>
+{%- endif -%}

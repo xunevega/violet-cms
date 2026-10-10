@@ -1,0 +1,339 @@
+{{ 'violet-cms-sections.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign metafield_looks = shop.metafields.violet.shop_the_looks.value
+  assign use_manual_blocks = false
+  if section.blocks.size > 0
+    assign use_manual_blocks = true
+  endif
+-%}
+
+{%- if use_manual_blocks or metafield_looks != blank -%}
+  <div class="violet-section violet-section--separator-{{ section.settings.separator }} violet-section--visible-{{ section.settings.visibility }} color-{{ section.settings.color_scheme }} gradient">
+    <div class="page-width violet-section__inner violet-section__inner--{{ section.settings.section_width }} violet-section__inner--align-{{ section.settings.content_alignment }}" style="--violet-padding-top: {{ section.settings.padding_top }}px; --violet-padding-bottom: {{ section.settings.padding_bottom }}px;">
+      <div class="violet-section__header">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="violet-section__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="violet-section__title {{ section.settings.heading_size }}">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.text != blank -%}
+          <div class="violet-section__text rte">{{ section.settings.text }}</div>
+        {%- endif -%}
+      </div>
+
+      <div class="violet-look-grid violet-look-grid--{{ section.settings.columns_desktop }}">
+        {%- if use_manual_blocks -%}
+          {%- for block in section.blocks limit: section.settings.max_items -%}
+            {%- liquid
+              assign product_1 = block.settings.product_1
+              assign product_2 = block.settings.product_2
+              assign product_3 = block.settings.product_3
+              assign has_products = false
+              if product_1 != blank or product_2 != blank or product_3 != blank
+                assign has_products = true
+              endif
+            -%}
+            <article class="violet-look violet-look--manual" {{ block.shopify_attributes }}>
+              <div class="violet-look__media violet-look__media--hotspots">
+                {%- if block.settings.image != blank -%}
+                  {{
+                    block.settings.image
+                    | image_url: width: 1400
+                    | image_tag: loading: 'lazy', widths: '360, 540, 720, 900, 1200, 1400', alt: block.settings.image.alt
+                  }}
+                {%- elsif product_1.featured_image != blank -%}
+                  {{
+                    product_1.featured_image
+                    | image_url: width: 1400
+                    | image_tag: loading: 'lazy', widths: '360, 540, 720, 900, 1200, 1400', alt: product_1.featured_image.alt
+                  }}
+                {%- else -%}
+                  {{ 'collection-apparel-1' | placeholder_svg_tag: 'placeholder-svg violet-look__placeholder' }}
+                {%- endif -%}
+
+                {%- if product_1 != blank -%}
+                  <a
+                    class="violet-look__hotspot"
+                    href="{{ product_1.url }}"
+                    style="--violet-hotspot-x: {{ block.settings.product_1_x }}%; --violet-hotspot-y: {{ block.settings.product_1_y }}%;"
+                    aria-label="{{ 'violet.shop_the_look.view_product' | t: product: product_1.title | escape }}"
+                  >
+                    <span class="violet-look__hotspot-dot">1</span>
+                    <span class="violet-look__hotspot-card">
+                      <span>{{ product_1.title | escape }}</span>
+                      <span>{{ product_1.price | money }}</span>
+                    </span>
+                  </a>
+                {%- endif -%}
+
+                {%- if product_2 != blank -%}
+                  <a
+                    class="violet-look__hotspot"
+                    href="{{ product_2.url }}"
+                    style="--violet-hotspot-x: {{ block.settings.product_2_x }}%; --violet-hotspot-y: {{ block.settings.product_2_y }}%;"
+                    aria-label="{{ 'violet.shop_the_look.view_product' | t: product: product_2.title | escape }}"
+                  >
+                    <span class="violet-look__hotspot-dot">2</span>
+                    <span class="violet-look__hotspot-card">
+                      <span>{{ product_2.title | escape }}</span>
+                      <span>{{ product_2.price | money }}</span>
+                    </span>
+                  </a>
+                {%- endif -%}
+
+                {%- if product_3 != blank -%}
+                  <a
+                    class="violet-look__hotspot"
+                    href="{{ product_3.url }}"
+                    style="--violet-hotspot-x: {{ block.settings.product_3_x }}%; --violet-hotspot-y: {{ block.settings.product_3_y }}%;"
+                    aria-label="{{ 'violet.shop_the_look.view_product' | t: product: product_3.title | escape }}"
+                  >
+                    <span class="violet-look__hotspot-dot">3</span>
+                    <span class="violet-look__hotspot-card">
+                      <span>{{ product_3.title | escape }}</span>
+                      <span>{{ product_3.price | money }}</span>
+                    </span>
+                  </a>
+                {%- endif -%}
+              </div>
+
+              <div class="violet-look__content">
+                {%- if block.settings.label != blank -%}
+                  <p class="violet-section__eyebrow">{{ block.settings.label | escape }}</p>
+                {%- endif -%}
+                {%- if block.settings.title != blank -%}
+                  <h3 class="violet-card__title h3">{{ block.settings.title | escape }}</h3>
+                {%- endif -%}
+                {%- if block.settings.text != blank -%}
+                  <div class="violet-card__text rte">{{ block.settings.text }}</div>
+                {%- endif -%}
+
+                {%- if has_products -%}
+                  <div class="violet-look__products" aria-label="{{ 'violet.shop_the_look.products_label' | t }}">
+                    {%- if product_1 != blank -%}
+                      <a class="violet-look-product" href="{{ product_1.url }}">
+                        {%- if product_1.featured_image != blank -%}
+                          {{
+                            product_1.featured_image
+                            | image_url: width: 180
+                            | image_tag: loading: 'lazy', widths: '90, 140, 180', alt: product_1.featured_image.alt
+                          }}
+                        {%- endif -%}
+                        <span class="violet-look-product__content">
+                          <span class="violet-look-product__title">{{ product_1.title | escape }}</span>
+                          <span class="violet-look-product__price">{{ product_1.price | money }}</span>
+                        </span>
+                      </a>
+                    {%- endif -%}
+                    {%- if product_2 != blank -%}
+                      <a class="violet-look-product" href="{{ product_2.url }}">
+                        {%- if product_2.featured_image != blank -%}
+                          {{
+                            product_2.featured_image
+                            | image_url: width: 180
+                            | image_tag: loading: 'lazy', widths: '90, 140, 180', alt: product_2.featured_image.alt
+                          }}
+                        {%- endif -%}
+                        <span class="violet-look-product__content">
+                          <span class="violet-look-product__title">{{ product_2.title | escape }}</span>
+                          <span class="violet-look-product__price">{{ product_2.price | money }}</span>
+                        </span>
+                      </a>
+                    {%- endif -%}
+                    {%- if product_3 != blank -%}
+                      <a class="violet-look-product" href="{{ product_3.url }}">
+                        {%- if product_3.featured_image != blank -%}
+                          {{
+                            product_3.featured_image
+                            | image_url: width: 180
+                            | image_tag: loading: 'lazy', widths: '90, 140, 180', alt: product_3.featured_image.alt
+                          }}
+                        {%- endif -%}
+                        <span class="violet-look-product__content">
+                          <span class="violet-look-product__title">{{ product_3.title | escape }}</span>
+                          <span class="violet-look-product__price">{{ product_3.price | money }}</span>
+                        </span>
+                      </a>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+
+                {%- if block.settings.button_label != blank and block.settings.button_link != blank -%}
+                  <a class="button button--secondary" href="{{ block.settings.button_link }}">{{ block.settings.button_label | escape }}</a>
+                {%- endif -%}
+              </div>
+            </article>
+          {%- endfor -%}
+        {%- else -%}
+          {%- for look in metafield_looks limit: section.settings.max_items -%}
+            {%- liquid
+              assign image = look.image.value
+              assign products = look.products.value
+              assign cta_label = look.cta_label.value
+              assign cta_url = look.cta_url.value
+            -%}
+            <article class="violet-look violet-look--metafield">
+              {%- if image != blank -%}
+                <div class="violet-look__media">
+                  {{ image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '360, 540, 720, 900, 1200', alt: image.alt }}
+                </div>
+              {%- endif -%}
+
+              <div class="violet-look__content">
+                {%- if look.title.value != blank -%}
+                  <h3 class="violet-card__title h3">{{ look.title.value | escape }}</h3>
+                {%- endif -%}
+                {%- if look.text.value != blank -%}
+                  <div class="violet-card__text rte">{{ look.text.value | newline_to_br }}</div>
+                {%- endif -%}
+
+                {%- if products != blank -%}
+                  <div class="violet-look__products" aria-label="{{ 'violet.shop_the_look.products_label' | t }}">
+                    {%- for product in products limit: section.settings.products_per_look -%}
+                      <a class="violet-look-product" href="{{ product.url }}">
+                        {%- if product.featured_image != blank -%}
+                          {{
+                            product.featured_image
+                            | image_url: width: 180
+                            | image_tag: loading: 'lazy', widths: '90, 140, 180', alt: product.featured_image.alt
+                          }}
+                        {%- endif -%}
+                        <span class="violet-look-product__content">
+                          <span class="violet-look-product__title">{{ product.title | escape }}</span>
+                          <span class="violet-look-product__price">{{ product.price | money }}</span>
+                        </span>
+                      </a>
+                    {%- endfor -%}
+                  </div>
+                {%- endif -%}
+
+                {%- if cta_label != blank and cta_url != blank -%}
+                  <a class="button button--secondary" href="{{ cta_url }}">{{ cta_label | escape }}</a>
+                {%- endif -%}
+              </div>
+            </article>
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Violet: shop the look",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Etiqueta", "default": "Shop the look" },
+    { "type": "inline_richtext", "id": "heading", "label": "Titulo", "default": "Ideas completas para comprar" },
+    { "type": "richtext", "id": "text", "label": "Texto" },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Tamano del titulo",
+      "options": [
+        { "value": "h2", "label": "Pequeno" },
+        { "value": "h1", "label": "Medio" },
+        { "value": "h0", "label": "Grande" }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "select",
+      "id": "columns_desktop",
+      "label": "Columnas en escritorio",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "2"
+    },
+    { "type": "range", "id": "max_items", "min": 1, "max": 6, "step": 1, "label": "Maximo de looks", "default": 2 },
+    { "type": "range", "id": "products_per_look", "min": 1, "max": 4, "step": 1, "label": "Productos por look en metafields", "default": 3 },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-1" },
+    { "type": "header", "content": "Violet layout" },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Ancho de seccion",
+      "options": [
+        { "value": "narrow", "label": "Estrecho" },
+        { "value": "page", "label": "Normal" },
+        { "value": "wide", "label": "Ancho" },
+        { "value": "full", "label": "Completo" }
+      ],
+      "default": "page"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Alineacion del contenido",
+      "options": [
+        { "value": "left", "label": "Izquierda" },
+        { "value": "center", "label": "Centro" },
+        { "value": "right", "label": "Derecha" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "separator",
+      "label": "Linea separadora",
+      "options": [
+        { "value": "none", "label": "Sin linea" },
+        { "value": "top", "label": "Arriba" },
+        { "value": "bottom", "label": "Abajo" },
+        { "value": "both", "label": "Arriba y abajo" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "select",
+      "id": "visibility",
+      "label": "Visibilidad",
+      "options": [
+        { "value": "all", "label": "Movil y escritorio" },
+        { "value": "mobile", "label": "Solo movil" },
+        { "value": "desktop", "label": "Solo escritorio" }
+      ],
+      "default": "all"
+    },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding superior", "default": 52 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding inferior", "default": 52 }
+  ],
+  "blocks": [
+    {
+      "type": "look",
+      "name": "Look",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Imagen del look" },
+        { "type": "text", "id": "label", "label": "Etiqueta", "default": "Look completo" },
+        { "type": "text", "id": "title", "label": "Titulo", "default": "Compra el conjunto" },
+        { "type": "richtext", "id": "text", "label": "Texto", "default": "<p>Combina productos relacionados en una propuesta visual clara.</p>" },
+        { "type": "product", "id": "product_1", "label": "Producto 1" },
+        { "type": "range", "id": "product_1_x", "min": 5, "max": 95, "step": 1, "unit": "%", "label": "Punto 1 horizontal", "default": 35 },
+        { "type": "range", "id": "product_1_y", "min": 5, "max": 95, "step": 1, "unit": "%", "label": "Punto 1 vertical", "default": 42 },
+        { "type": "product", "id": "product_2", "label": "Producto 2" },
+        { "type": "range", "id": "product_2_x", "min": 5, "max": 95, "step": 1, "unit": "%", "label": "Punto 2 horizontal", "default": 62 },
+        { "type": "range", "id": "product_2_y", "min": 5, "max": 95, "step": 1, "unit": "%", "label": "Punto 2 vertical", "default": 58 },
+        { "type": "product", "id": "product_3", "label": "Producto 3" },
+        { "type": "range", "id": "product_3_x", "min": 5, "max": 95, "step": 1, "unit": "%", "label": "Punto 3 horizontal", "default": 72 },
+        { "type": "range", "id": "product_3_y", "min": 5, "max": 95, "step": 1, "unit": "%", "label": "Punto 3 vertical", "default": 34 },
+        { "type": "text", "id": "button_label", "label": "Boton" },
+        { "type": "url", "id": "button_link", "label": "Enlace del boton" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Violet: shop the look",
+      "blocks": [
+        { "type": "look" }
+      ]
+    }
+  ]
+}
+{% endschema %}

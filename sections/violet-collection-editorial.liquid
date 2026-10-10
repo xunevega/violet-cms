@@ -1,0 +1,231 @@
+{{ 'violet-cms-sections.css' | asset_url | stylesheet_tag }}
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'violet-product-carousel.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'violet-product-carousel.js' | asset_url }}" defer="defer"></script>
+{%- if section.settings.enable_violet_quick_view -%}
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{%- liquid
+  assign editorial_banner = collection.metafields.violet.editorial_banner.value
+  assign editorial_text = collection.metafields.violet.editorial_text.value
+  assign subcollections = collection.metafields.violet.subcollections.value
+  assign featured_block = collection.metafields.violet.featured_block.value
+  assign featured_products = collection.metafields.violet.featured_products.value
+-%}
+
+{%- if editorial_banner != blank or editorial_text != blank or subcollections != blank or featured_block != blank or featured_products != blank -%}
+  <div class="violet-section violet-section--separator-{{ section.settings.separator }} violet-section--visible-{{ section.settings.visibility }} color-{{ section.settings.color_scheme }} gradient">
+    <div class="page-width violet-section__inner violet-section__inner--{{ section.settings.section_width }} violet-section__inner--align-{{ section.settings.content_alignment }}" style="--violet-padding-top: {{ section.settings.padding_top }}px; --violet-padding-bottom: {{ section.settings.padding_bottom }}px;">
+      <div class="violet-collection-editorial__layout">
+        <div>
+          {%- if section.settings.eyebrow != blank -%}
+            <p class="violet-section__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+          {%- endif -%}
+          <h2 class="violet-section__title {{ section.settings.heading_size }}">
+            {{ section.settings.heading | default: collection.title }}
+          </h2>
+          {%- if editorial_text != blank -%}
+            <div class="violet-section__text rte">{{ editorial_text }}</div>
+          {%- endif -%}
+          {%- if subcollections != blank -%}
+            <nav class="violet-subcollections" aria-label="Subcolecciones">
+              {%- for subcollection in subcollections limit: section.settings.max_subcollections -%}
+                <a href="{{ subcollection.url }}">{{ subcollection.title | escape }}</a>
+              {%- endfor -%}
+            </nav>
+          {%- endif -%}
+        </div>
+
+        <div>
+          {%- if editorial_banner != blank -%}
+            <div class="violet-card__media">
+              {{ editorial_banner | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '360, 540, 720, 900, 1200, 1400', alt: editorial_banner.alt }}
+            </div>
+          {%- elsif featured_block != blank -%}
+            <article class="violet-card">
+              {%- assign block_image = featured_block.image.value -%}
+              {%- if block_image != blank -%}
+                <div class="violet-card__media">
+                  {{ block_image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '300, 450, 600, 900', alt: block_image.alt }}
+                </div>
+              {%- endif -%}
+              {%- if featured_block.title.value != blank -%}
+                <h3 class="violet-card__title h3">{{ featured_block.title.value | escape }}</h3>
+              {%- endif -%}
+              {%- if featured_block.text.value != blank -%}
+                <div class="violet-card__text rte">{{ featured_block.text.value }}</div>
+              {%- endif -%}
+              {%- if featured_block.cta_label.value != blank and featured_block.cta_url.value != blank -%}
+                <a class="button button--secondary" href="{{ featured_block.cta_url.value }}">
+                  {{ featured_block.cta_label.value | escape }}
+                </a>
+              {%- endif -%}
+            </article>
+          {%- endif -%}
+
+          {%- if featured_products != blank -%}
+            <violet-product-carousel
+              class="violet-product-carousel violet-product-carousel--collection-featured"
+              style="--violet-padding-top: 0px; --violet-padding-bottom: 0px; --violet-carousel-columns: {{ section.settings.featured_products_columns }};"
+            >
+              <div class="violet-product-carousel__inner">
+                <div class="violet-product-carousel__header">
+                  <div class="violet-product-carousel__copy">
+                    {%- if section.settings.featured_products_eyebrow != blank -%}
+                      <p class="violet-product-carousel__eyebrow">{{ section.settings.featured_products_eyebrow | escape }}</p>
+                    {%- endif -%}
+                    {%- if section.settings.featured_products_heading != blank -%}
+                      <h3 class="violet-product-carousel__title h4">{{ section.settings.featured_products_heading | escape }}</h3>
+                    {%- endif -%}
+                  </div>
+
+                  <div class="violet-product-carousel__controls" aria-label="{{ 'general.slider.name' | t }}">
+                    <button
+                      type="button"
+                      class="violet-product-carousel__button violet-product-carousel__button--prev"
+                      data-violet-carousel-prev
+                      aria-label="{{ 'general.slider.previous_slide' | t }}"
+                    >
+                      <span class="svg-wrapper">{{ 'icon-caret.svg' | inline_asset_content }}</span>
+                    </button>
+                    <button
+                      type="button"
+                      class="violet-product-carousel__button violet-product-carousel__button--next"
+                      data-violet-carousel-next
+                      aria-label="{{ 'general.slider.next_slide' | t }}"
+                    >
+                      <span class="svg-wrapper">{{ 'icon-caret.svg' | inline_asset_content }}</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="violet-product-carousel__viewport" data-violet-carousel-viewport>
+                  <ul class="violet-product-carousel__track" role="list">
+                    {%- assign skip_card_product_styles = false -%}
+                    {%- for featured_product in featured_products limit: section.settings.max_featured_products -%}
+                      <li class="violet-product-carousel__slide grid__item">
+                        {% render 'card-product',
+                          card_product: featured_product,
+                          media_aspect_ratio: section.settings.image_ratio,
+                          image_shape: 'default',
+                          show_secondary_image: section.settings.show_secondary_image,
+                          show_vendor: section.settings.show_vendor,
+                          show_rating: false,
+                          skip_styles: skip_card_product_styles,
+                          section_id: section.id,
+                          show_violet_badges: section.settings.show_violet_badges,
+                          violet_badge_limit: 2,
+                          enable_violet_quick_view: section.settings.enable_violet_quick_view,
+                          product_view_context: 'collection_featured'
+                        %}
+                      </li>
+                      {%- assign skip_card_product_styles = true -%}
+                    {%- endfor -%}
+                  </ul>
+                </div>
+              </div>
+            </violet-product-carousel>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Violet: coleccion",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Etiqueta", "default": "Coleccion" },
+    { "type": "inline_richtext", "id": "heading", "label": "Titulo alternativo" },
+    { "type": "text", "id": "featured_products_eyebrow", "label": "Etiqueta productos destacados", "default": "Seleccion editorial" },
+    { "type": "text", "id": "featured_products_heading", "label": "Titulo productos destacados", "default": "Destacados" },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Tamano del titulo",
+      "options": [
+        { "value": "h2", "label": "Pequeno" },
+        { "value": "h1", "label": "Medio" },
+        { "value": "h0", "label": "Grande" }
+      ],
+      "default": "h1"
+    },
+    { "type": "range", "id": "max_subcollections", "min": 2, "max": 12, "step": 1, "label": "Maximo de subcolecciones", "default": 8 },
+    { "type": "range", "id": "max_featured_products", "min": 2, "max": 12, "step": 1, "label": "Maximo de productos destacados", "default": 6 },
+    { "type": "range", "id": "featured_products_columns", "min": 1, "max": 4, "step": 1, "label": "Columnas productos destacados", "default": 2 },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Formato de imagen",
+      "options": [
+        { "value": "adapt", "label": "Adaptar" },
+        { "value": "portrait", "label": "Vertical" },
+        { "value": "square", "label": "Cuadrada" }
+      ],
+      "default": "adapt"
+    },
+    { "type": "checkbox", "id": "show_secondary_image", "label": "Mostrar segunda imagen", "default": true },
+    { "type": "checkbox", "id": "show_vendor", "label": "Mostrar marca", "default": false },
+    { "type": "checkbox", "id": "show_violet_badges", "label": "Mostrar badges Violet", "default": true },
+    { "type": "checkbox", "id": "enable_violet_quick_view", "label": "Activar vista rapida", "default": true },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-1" },
+    { "type": "header", "content": "Violet layout" },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Ancho de seccion",
+      "options": [
+        { "value": "narrow", "label": "Estrecho" },
+        { "value": "page", "label": "Normal" },
+        { "value": "wide", "label": "Ancho" },
+        { "value": "full", "label": "Completo" }
+      ],
+      "default": "page"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Alineacion del contenido",
+      "options": [
+        { "value": "left", "label": "Izquierda" },
+        { "value": "center", "label": "Centro" },
+        { "value": "right", "label": "Derecha" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "separator",
+      "label": "Linea separadora",
+      "options": [
+        { "value": "none", "label": "Sin linea" },
+        { "value": "top", "label": "Arriba" },
+        { "value": "bottom", "label": "Abajo" },
+        { "value": "both", "label": "Arriba y abajo" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "select",
+      "id": "visibility",
+      "label": "Visibilidad",
+      "options": [
+        { "value": "all", "label": "Movil y escritorio" },
+        { "value": "mobile", "label": "Solo movil" },
+        { "value": "desktop", "label": "Solo escritorio" }
+      ],
+      "default": "all"
+    },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding superior", "default": 28 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding inferior", "default": 36 }
+  ],
+  "presets": [
+    { "name": "Violet: coleccion" }
+  ]
+}
+{% endschema %}

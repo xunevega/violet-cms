@@ -1,6 +1,7 @@
 {{ 'template-collection.css' | asset_url | stylesheet_tag }}
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'violet-collection.css' | asset_url | stylesheet_tag }}
 
 {% if section.settings.image_shape == 'blob' %}
   {{ 'mask-blobs.css' | asset_url | stylesheet_tag }}
@@ -12,6 +13,10 @@
 
 {%- if section.settings.quick_add == 'standard' -%}
   <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{%- if section.settings.enable_violet_quick_view and section.settings.quick_add != 'standard' -%}
   <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
 
@@ -40,11 +45,50 @@
   view-event-payload="{{ collection | standard_event_data: 'view' | escape }}"
   data-collection-id="{{ collection.id }}"
 >
-  <div class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}">
+  <div class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }} violet-collection-shell violet-collection-shell--{{ section.settings.violet_filter_style }} violet-grid-density--{{ section.settings.violet_grid_density }} violet-grid-layout--{{ section.settings.violet_grid_layout }}">
     {%- paginate collection.products by section.settings.products_per_page -%}
+      {%- if section.settings.show_violet_toolbar -%}
+        {%- liquid
+          assign violet_active_filters = 0
+          for filter in collection.filters
+            assign violet_active_filters = violet_active_filters | plus: filter.active_values.size
+            if filter.type == 'price_range'
+              if filter.min_value.value != null or filter.max_value.value != null
+                assign violet_active_filters = violet_active_filters | plus: 1
+              endif
+            endif
+          endfor
+          assign violet_grid_view_label = 'violet.collection.view_standard' | t
+          if section.settings.violet_grid_layout == 'editorial'
+            assign violet_grid_view_label = 'violet.collection.view_editorial' | t
+          endif
+        -%}
+        <div class="page-width violet-collection-toolbar">
+          <div class="violet-collection-toolbar__summary" role="status">
+            <span>
+              {%- if collection.products_count == collection.all_products_count -%}
+                {{ 'products.facets.product_count_simple' | t: count: collection.products_count }}
+              {%- else -%}
+                {{
+                  'products.facets.product_count'
+                  | t: product_count: collection.products_count, count: collection.all_products_count
+                }}
+              {%- endif -%}
+            </span>
+            {%- if violet_active_filters > 0 -%}
+              <span>{{ 'violet.collection.active_filters' | t: count: violet_active_filters }}</span>
+            {%- endif -%}
+          </div>
+          <div class="violet-collection-toolbar__view" aria-hidden="true">
+            <span>{{ 'violet.collection.view_label' | t }}</span>
+            <strong>{{ violet_grid_view_label }}</strong>
+          </div>
+        </div>
+      {%- endif -%}
+
       {% comment %} Sort is the first tabbable element when filter type is vertical {% endcomment %}
       {%- if section.settings.enable_sorting and section.settings.filter_type == 'vertical' -%}
-        <facet-filters-form class="facets facets-vertical-sort page-width small-hide">
+        <facet-filters-form class="facets facets-vertical-sort page-width small-hide violet-collection-sort">
           <form class="facets-vertical-form" id="FacetSortForm">
             <div class="facet-filters sorting caption">
               <div class="facet-filters__field">
@@ -101,13 +145,13 @@
         </facet-filters-form>
       {%- endif -%}
 
-      <div class="{% if section.settings.filter_type == 'vertical' %} facets-vertical page-width{% endif %}">
+      <div class="violet-collection-layout{% if section.settings.filter_type == 'vertical' %} facets-vertical page-width{% endif %}">
         {{ 'component-facets.css' | asset_url | stylesheet_tag }}
         <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
         {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
           <aside
             aria-labelledby="verticalTitle"
-            class="facets-wrapper{% unless section.settings.enable_filtering %} facets-wrapper--no-filters{% endunless %}{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"
+            class="facets-wrapper violet-collection-filters{% unless section.settings.enable_filtering %} facets-wrapper--no-filters{% endunless %}{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"
             id="main-collection-filters"
             data-id="{{ section.id }}"
           >
@@ -144,7 +188,7 @@
             </div>
           {%- else -%}
             <div
-              class="collection{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"
+              class="collection violet-collection-grid{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"
             >
               <div class="loading-overlay gradient"></div>
               <ul
@@ -153,6 +197,8 @@
                 class="
                   grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down
                   grid--{{ section.settings.columns_desktop }}-col-desktop
+                  violet-product-grid
+                  violet-product-grid--{{ section.settings.violet_grid_layout }}
                   {% if section.settings.quick_add == 'bulk' %} collection-quick-add-bulk{% endif %}
                 "
               >
@@ -163,7 +209,7 @@
                     {%- assign lazy_load = true -%}
                   {%- endif -%}
                   <li
-                    class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                    class="grid__item{% if section.settings.violet_grid_layout == 'editorial' and forloop.index == 1 %} violet-product-grid__item--featured{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
                     {% if settings.animations_reveal_on_scroll %}
                       data-cascade
                       style="--animation-order: {{ forloop.index }};"
@@ -179,6 +225,9 @@
                       lazy_load: lazy_load,
                       skip_styles: skip_card_product_styles,
                       quick_add: section.settings.quick_add,
+                      show_violet_badges: section.settings.show_violet_badges,
+                      violet_badge_limit: section.settings.violet_badge_limit,
+                      enable_violet_quick_view: section.settings.enable_violet_quick_view,
                       section_id: section.id,
                       product_view_context: 'collection'
                     %}
@@ -239,6 +288,48 @@
           "label": "t:sections.main-collection-product-grid.settings.columns_mobile.options__2.label"
         }
       ]
+    },
+    {
+      "type": "select",
+      "id": "violet_grid_density",
+      "default": "balanced",
+      "label": "Violet: densidad del grid",
+      "options": [
+        {
+          "value": "comfortable",
+          "label": "Comoda"
+        },
+        {
+          "value": "balanced",
+          "label": "Equilibrada"
+        },
+        {
+          "value": "compact",
+          "label": "Compacta"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "violet_grid_layout",
+      "default": "standard",
+      "label": "Violet: layout del grid",
+      "options": [
+        {
+          "value": "standard",
+          "label": "Estandar"
+        },
+        {
+          "value": "editorial",
+          "label": "Editorial con destacado"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "show_violet_toolbar",
+      "default": true,
+      "label": "Violet: mostrar resumen de coleccion"
     },
     {
       "type": "color_scheme",
@@ -331,6 +422,27 @@
       "info": "t:sections.main-collection-product-grid.settings.show_rating.info"
     },
     {
+      "type": "checkbox",
+      "id": "show_violet_badges",
+      "default": true,
+      "label": "Violet: mostrar badges de producto"
+    },
+    {
+      "type": "range",
+      "id": "violet_badge_limit",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 2,
+      "label": "Violet: badges visibles por producto"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_violet_quick_view",
+      "default": true,
+      "label": "Violet: activar quick view sobrio"
+    },
+    {
       "type": "select",
       "id": "quick_add",
       "default": "none",
@@ -380,6 +492,22 @@
       ],
       "default": "horizontal",
       "label": "t:sections.main-collection-product-grid.settings.filter_type.label"
+    },
+    {
+      "type": "select",
+      "id": "violet_filter_style",
+      "default": "panel",
+      "label": "Violet: estilo visual de filtros",
+      "options": [
+        {
+          "value": "panel",
+          "label": "Panel claro"
+        },
+        {
+          "value": "minimal",
+          "label": "Minimal"
+        }
+      ]
     },
     {
       "type": "checkbox",

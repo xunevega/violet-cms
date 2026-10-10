@@ -30,11 +30,12 @@
                 class="mega-menu__content color-{{ section.settings.menu_color_scheme }} gradient motion-reduce global-settings-popup"
                 tabindex="-1"
               >
-                <ul
-                  class="mega-menu__list page-width{% if link.levels == 1 %} mega-menu__list--condensed{% endif %}"
-                  role="list"
-                >
-                  {%- for childlink in link.links -%}
+                <div class="page-width violet-mega-menu">
+                  <ul
+                    class="mega-menu__list violet-mega-menu__list{% if link.levels == 1 %} mega-menu__list--condensed{% endif %}"
+                    role="list"
+                  >
+                    {%- for childlink in link.links -%}
                     <li>
                       <a
                         id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}"
@@ -59,14 +60,126 @@
                                 {% endif %}
                               >
                                 {{ grandchildlink.title | escape }}
-                              </a>
-                            </li>
-                          {%- endfor -%}
-                        </ul>
-                      {%- endif -%}
+                          </a>
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                  {%- endif -%}
                     </li>
-                  {%- endfor -%}
-                </ul>
+                    {%- endfor -%}
+                  </ul>
+
+                  {%- if section.settings.enable_violet_mega_cards -%}
+                    <div class="violet-mega-menu__cards" aria-label="{{ 'violet.navigation.featured_links' | t }}">
+                      {%- for childlink in link.links limit: 3 -%}
+                        {%- liquid
+                          assign violet_menu_image = blank
+                          assign violet_menu_object = childlink.object
+                          if violet_menu_object != blank
+                            if violet_menu_object.image != blank
+                              assign violet_menu_image = violet_menu_object.image
+                            elsif violet_menu_object.featured_image != blank
+                              assign violet_menu_image = violet_menu_object.featured_image
+                            endif
+                          endif
+                        -%}
+                        {%- if violet_menu_image != blank -%}
+                          <a class="violet-mega-card" href="{{ childlink.url }}">
+                            {{
+                              violet_menu_image
+                              | image_url: width: 420
+                              | image_tag: loading: 'lazy', widths: '180, 260, 360, 420', alt: violet_menu_image.alt
+                            }}
+                            <span class="violet-mega-card__title">{{ childlink.title | escape }}</span>
+                          </a>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </div>
+                  {%- endif -%}
+                </div>
+              </div>
+            </details>
+          </header-menu>
+        {%- elsif section.settings.enable_violet_mega_cards and link.url contains '/collections' -%}
+          <header-menu>
+            <details id="Details-HeaderMenu-{{ forloop.index }}" class="mega-menu">
+              <summary
+                id="HeaderMenu-{{ link.handle }}"
+                class="header__menu-item list-menu__item link focus-inset"
+              >
+                <span
+                  {%- if link.current %}
+                    class="header__active-menu-item"
+                  {% endif %}
+                >
+                  {{- link.title | escape -}}
+                </span>
+                {{- 'icon-caret.svg' | inline_asset_content -}}
+              </summary>
+              <div
+                id="MegaMenu-Content-{{ forloop.index }}"
+                class="mega-menu__content color-{{ section.settings.menu_color_scheme }} gradient motion-reduce global-settings-popup"
+                tabindex="-1"
+              >
+                <div class="page-width violet-mega-menu violet-mega-menu--featured">
+                  <div class="violet-mega-menu__intro">
+                    <a
+                      id="HeaderMenu-{{ link.handle }}-all"
+                      href="{{ link.url }}"
+                      class="mega-menu__link mega-menu__link--level-2 link{% if link.current %} mega-menu__link--active{% endif %}"
+                      {% if link.current %}
+                        aria-current="page"
+                      {% endif %}
+                    >
+                      {{ link.title | escape }}
+                    </a>
+                    <p>{{ 'violet.navigation.mega_intro' | t }}</p>
+                  </div>
+
+                  <div class="violet-mega-menu__cards" aria-label="{{ 'violet.navigation.featured_links' | t }}">
+                    {%- liquid
+                      assign featured_product_1 = all_products[section.settings.violet_mega_product_1]
+                      assign featured_product_2 = all_products[section.settings.violet_mega_product_2]
+                      assign featured_product_3 = all_products[section.settings.violet_mega_product_3]
+                    -%}
+                    {%- if featured_product_1 != blank -%}
+                      <a class="violet-mega-card" href="{{ featured_product_1.url }}">
+                        {%- if featured_product_1.featured_image != blank -%}
+                          {{
+                            featured_product_1.featured_image
+                            | image_url: width: 420
+                            | image_tag: loading: 'lazy', widths: '180, 260, 360, 420', alt: featured_product_1.featured_image.alt
+                          }}
+                        {%- endif -%}
+                        <span class="violet-mega-card__title">{{ featured_product_1.title | escape }}</span>
+                      </a>
+                    {%- endif -%}
+                    {%- if featured_product_2 != blank -%}
+                      <a class="violet-mega-card" href="{{ featured_product_2.url }}">
+                        {%- if featured_product_2.featured_image != blank -%}
+                          {{
+                            featured_product_2.featured_image
+                            | image_url: width: 420
+                            | image_tag: loading: 'lazy', widths: '180, 260, 360, 420', alt: featured_product_2.featured_image.alt
+                          }}
+                        {%- endif -%}
+                        <span class="violet-mega-card__title">{{ featured_product_2.title | escape }}</span>
+                      </a>
+                    {%- endif -%}
+                    {%- if featured_product_3 != blank -%}
+                      <a class="violet-mega-card" href="{{ featured_product_3.url }}">
+                        {%- if featured_product_3.featured_image != blank -%}
+                          {{
+                            featured_product_3.featured_image
+                            | image_url: width: 420
+                            | image_tag: loading: 'lazy', widths: '180, 260, 360, 420', alt: featured_product_3.featured_image.alt
+                          }}
+                        {%- endif -%}
+                        <span class="violet-mega-card__title">{{ featured_product_3.title | escape }}</span>
+                      </a>
+                    {%- endif -%}
+                  </div>
+                </div>
               </div>
             </details>
           </header-menu>

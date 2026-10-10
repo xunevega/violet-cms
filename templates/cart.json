@@ -1,5 +1,13 @@
 {
   "sections": {
+    "violet-breadcrumbs": {
+      "type": "violet-breadcrumbs",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 16,
+        "padding_bottom": 0
+      }
+    },
     "cart-items": {
       "type": "main-cart-items",
       "settings": {
@@ -34,6 +42,7 @@
     }
   },
   "order": [
+    "violet-breadcrumbs",
     "cart-items",
     "cart-footer"
   ]

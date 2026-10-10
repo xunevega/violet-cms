@@ -1,0 +1,34 @@
+{% comment %}
+  Violet CMS — FAQ del producto (metaobjects violet_faq_item).
+  Usa la FAQ propia del producto o, si no hay, la global de la tienda.
+  Accepts: product, block, section_id
+{% endcomment %}
+{%- liquid
+  assign faqs = product.metafields.violet.faqs.value
+  if faqs == blank
+    assign faqs = shop.metafields.violet.faqs_global.value
+  endif
+-%}
+{%- if faqs != blank -%}
+  {%- assign fallback_heading = 'violet.product.faq_heading' | t -%}
+  {%- assign faq_heading = block.settings.faq_heading | default: fallback_heading -%}
+  <div class="product__accordion accordion quick-add-hidden violet-faqs" {{ block.shopify_attributes }}>
+    <h2 class="h4">{{ faq_heading | escape }}</h2>
+    {%- for faq in faqs -%}
+      <details id="Details-FAQ-{{ faq.id }}-{{ section_id }}">
+        <summary>
+          <div class="summary__title">
+            {% render 'icon-accordion', icon: 'question_mark' %}
+            <h3 class="h5 accordion__title inline-richtext">
+              {{ faq.question.value }}
+            </h3>
+          </div>
+          {{- 'icon-caret.svg' | inline_asset_content -}}
+        </summary>
+        <div class="accordion__content rte" id="ProductAccordion-FAQ-{{ faq.id }}-{{ section_id }}">
+          {{ faq.answer.value }}
+        </div>
+      </details>
+    {%- endfor -%}
+  </div>
+{%- endif -%}

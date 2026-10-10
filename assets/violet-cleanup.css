@@ -1,0 +1,27 @@
+/*
+  Violet CMS temporary cleanup.
+  Hide third-party chat overlays during development QA.
+  Production privacy/cookie consent should be managed from Shopify Admin > Settings > Customer privacy.
+*/
+
+#shopify-chat,
+#ShopifyChat,
+shopify-chat,
+.shopify-chat,
+iframe[src*='shopifyinbox'],
+iframe[src*='inbox.shopify'],
+iframe[src*='shopify-chat'],
+iframe[title*='chat' i],
+iframe[title*='inbox' i] {
+  display: none !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
+@media screen and (max-width: 749px) {
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: clip;
+  }
+}

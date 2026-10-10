@@ -1,9 +1,9 @@
 [
   {
     "name": "theme_info",
-    "theme_name": "Dawn",
-    "theme_version": "15.5.0",
-    "theme_author": "Shopify",
+    "theme_name": "Violet CMS",
+    "theme_version": "0.5.1",
+    "theme_author": "Violet Moon",
     "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
     "theme_support_url": "https://support.shopify.com/"
   },
@@ -1419,14 +1419,14 @@
             "label": "t:settings_schema.cart.settings.cart_type.notification.label"
           }
         ],
-        "default": "notification",
+        "default": "drawer",
         "label": "t:settings_schema.cart.settings.cart_type.label"
       },
       {
         "type": "checkbox",
         "id": "show_vendor",
         "label": "t:settings_schema.cart.settings.show_vendor.label",
-        "default": false
+        "default": true
       },
       {
         "type": "checkbox",
@@ -1449,6 +1449,17 @@
         "id": "cart_color_scheme",
         "label": "t:sections.all.colors.label",
         "default": "scheme-1"
+      },
+      {
+        "type": "product",
+        "id": "violet_gift_product",
+        "label": "Violet: producto regalo opcional"
+      },
+      {
+        "type": "text",
+        "id": "violet_cart_trust_message",
+        "label": "Violet: mensaje de confianza del carrito",
+        "default": "Pedido revisado con cuidado antes de enviarse. Sin urgencias falsas: compra solo lo que encaje contigo."
       }
     ]
   }

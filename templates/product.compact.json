@@ -1,0 +1,89 @@
+{
+  "sections": {
+    "violet-breadcrumbs": {
+      "type": "violet-breadcrumbs",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 16,
+        "padding_bottom": 0
+      }
+    },
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "vendor": {
+          "type": "text",
+          "settings": {
+            "text": "{{ product.vendor }}",
+            "text_style": "uppercase"
+          }
+        },
+        "title": {
+          "type": "title"
+        },
+        "price": {
+          "type": "price"
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle"
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true
+          }
+        },
+        "violet_size_confidence": {
+          "type": "violet_size_confidence",
+          "settings": {
+            "heading": "Compra con confianza"
+          }
+        },
+        "description": {
+          "type": "description"
+        },
+        "violet_faqs": {
+          "type": "violet_faqs",
+          "settings": {
+            "faq_heading": "Preguntas frecuentes"
+          }
+        }
+      },
+      "block_order": [
+        "vendor",
+        "title",
+        "price",
+        "variant_picker",
+        "buy_buttons",
+        "violet_size_confidence",
+        "description",
+        "violet_faqs"
+      ],
+      "settings": {
+        "enable_sticky_info": true,
+        "color_scheme": "scheme-1",
+        "media_position": "left",
+        "gallery_layout": "thumbnail_slider",
+        "media_size": "medium",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "image_zoom": "lightbox",
+        "mobile_thumbnails": "show",
+        "hide_variants": true,
+        "enable_sticky_atc": true,
+        "enable_video_looping": false,
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    }
+  },
+  "order": [
+    "violet-breadcrumbs",
+    "main"
+  ]
+}

@@ -1,0 +1,17 @@
+{% comment %}
+  Violet CMS — Product card badges from product.metafields.violet.badges.
+
+  Accepts:
+  - product: {Object}
+  - max_items: {Number}
+{% endcomment %}
+{%- assign badges = product.metafields.violet.badges.value -%}
+{%- assign max_badges = max_items | default: 2 -%}
+
+{%- if badges != blank -%}
+  <div class="violet-card-badges" aria-label="{{ 'violet.collection.badges_label' | t }}">
+    {%- for badge in badges limit: max_badges -%}
+      <span class="violet-card-badges__item">{{ badge | escape }}</span>
+    {%- endfor -%}
+  </div>
+{%- endif -%}

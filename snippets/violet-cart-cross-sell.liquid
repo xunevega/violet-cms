@@ -1,0 +1,104 @@
+{% comment %}
+  Violet CMS — sober cart cross-sell.
+  Appi contract: product.metafields.violet.cart_cross_sell as a product reference list.
+  Fallbacks: product.metafields.violet.cross_sell, upsell, related_products.
+{% endcomment %}
+
+{%- liquid
+  assign max_items = 2
+  assign rendered_count = 0
+  assign cart_handles = '|'
+  assign shown_handles = '|'
+
+  for cart_item in cart.items
+    assign cart_handles = cart_handles | append: cart_item.product.handle | append: '|'
+  endfor
+-%}
+
+{%- capture cross_sell_items -%}
+  {%- for item in cart.items -%}
+    {%- liquid
+      assign suggestions = item.product.metafields.violet.cart_cross_sell.value
+      if suggestions == blank
+        assign suggestions = item.product.metafields.violet.cross_sell.value
+      endif
+      if suggestions == blank
+        assign suggestions = item.product.metafields.violet.upsell.value
+      endif
+      if suggestions == blank
+        assign suggestions = item.product.metafields.violet.related_products.value
+      endif
+    -%}
+
+    {%- for suggestion in suggestions -%}
+      {%- if rendered_count >= max_items -%}
+        {%- break -%}
+      {%- endif -%}
+
+      {%- liquid
+        assign handle_token = '|' | append: suggestion.handle | append: '|'
+        assign variant = suggestion.selected_or_first_available_variant
+        assign is_in_cart = false
+        assign is_shown = false
+
+        if cart_handles contains handle_token
+          assign is_in_cart = true
+        endif
+
+        if shown_handles contains handle_token
+          assign is_shown = true
+        endif
+      -%}
+
+      {%- if suggestion != blank
+        and variant.available
+        and is_in_cart == false
+        and is_shown == false
+      -%}
+        {%- liquid
+          assign rendered_count = rendered_count | plus: 1
+          assign shown_handles = shown_handles | append: suggestion.handle | append: '|'
+        -%}
+
+        <violet-cart-add class="violet-cart-cross-sell__item">
+          <a class="violet-cart-cross-sell__media" href="{{ suggestion.url }}" tabindex="-1" aria-hidden="true">
+            {%- if suggestion.featured_image -%}
+              <img
+                src="{{ suggestion.featured_image | image_url: width: 180 }}"
+                alt="{{ suggestion.featured_image.alt | default: suggestion.title | escape }}"
+                width="90"
+                height="{{ 90 | divided_by: suggestion.featured_image.aspect_ratio | ceil }}"
+                loading="lazy"
+              >
+            {%- endif -%}
+          </a>
+          <div class="violet-cart-cross-sell__content">
+            <a class="violet-cart-cross-sell__title" href="{{ suggestion.url }}">
+              {{ suggestion.title | escape }}
+            </a>
+            <p class="violet-cart-cross-sell__price">{{ variant.price | money }}</p>
+            <button
+              type="button"
+              class="button button--secondary violet-cart-cross-sell__button"
+              data-violet-cart-add
+              data-variant-id="{{ variant.id }}"
+            >
+              {{ 'violet.cart.add' | t }}
+            </button>
+            <p class="violet-cart-cross-sell__error" data-violet-cart-error hidden role="alert"></p>
+          </div>
+        </violet-cart-add>
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endfor -%}
+{%- endcapture -%}
+{%- assign cross_sell_items = cross_sell_items | strip -%}
+
+{%- if cross_sell_items != blank -%}
+  <div class="violet-cart-panel violet-cart-cross-sell">
+    <h3 class="violet-cart-panel__title h4">{{ 'violet.cart.cross_sell_title' | t }}</h3>
+    <div class="violet-cart-cross-sell__list">
+      {{ cross_sell_items }}
+    </div>
+  </div>
+{%- endif -%}

@@ -1,0 +1,92 @@
+{% comment %}
+  Violet CMS — Sticky add to cart bar.
+
+  Accepts:
+  - product: {Object}
+  - product_form_id: {String}
+  - section_id: {String}
+{% endcomment %}
+{%- if product != blank and section.settings.enable_sticky_atc -%}
+  {%- liquid
+    assign sticky_form_id = 'violet-sticky-atc-form-' | append: section_id
+    assign current_variant = product.selected_or_first_available_variant
+    assign current_media = current_variant.featured_media | default: product.featured_media
+  -%}
+  <violet-sticky-add-to-cart
+    class="violet-sticky-atc"
+    data-section-id="{{ section_id }}"
+    data-target="ProductSubmitButton-{{ section_id }}"
+  >
+    <div class="violet-sticky-atc__inner page-width">
+      <div class="violet-sticky-atc__media">
+        {%- if current_media -%}
+          {{
+            current_media
+            | image_url: width: 100
+            | image_tag:
+              loading: 'lazy',
+              width: 50,
+              height: 50,
+              alt: current_media.alt,
+              data-violet-sticky-atc-image: ''
+          }}
+        {%- endif -%}
+      </div>
+      <div class="violet-sticky-atc__info">
+        <p class="violet-sticky-atc__title">{{ product.title | escape }}</p>
+        <div class="violet-sticky-atc__meta">
+          {%- unless product.has_only_default_variant -%}
+            <p class="violet-sticky-atc__variant" data-violet-sticky-atc-variant-title>
+              {{ current_variant.title | escape }}
+            </p>
+          {%- endunless -%}
+          <p class="violet-sticky-atc__price" data-violet-sticky-atc-price>
+            {{ current_variant.price | money }}
+          </p>
+        </div>
+        <p class="violet-sticky-atc__status{% unless current_variant.available %} violet-sticky-atc__status--sold-out{% endunless %}" data-violet-sticky-atc-status>
+          {%- if current_variant.available -%}
+            {{ 'products.product.inventory_in_stock' | t }}
+          {%- else -%}
+            {{ 'products.product.sold_out' | t }}
+          {%- endif -%}
+        </p>
+      </div>
+      <product-form data-section-id="{{ section_id }}">
+        <form id="{{ sticky_form_id }}" class="violet-sticky-atc__form" method="post" action="{{ routes.cart_add_url }}">
+          <input
+            type="hidden"
+            name="id"
+            value="{{ current_variant.id }}"
+            data-violet-sticky-atc-variant
+            {% if current_variant.available == false or current_variant == null %}
+              disabled
+            {% endif %}
+          >
+          <button
+            type="submit"
+            name="add"
+            class="violet-sticky-atc__button button button--primary"
+            {% if current_variant.available == false or current_variant == null %}
+              disabled
+            {% endif %}
+          >
+            <span data-violet-sticky-atc-label>
+              {%- if current_variant == null -%}
+                {{ 'products.product.unavailable' | t }}
+              {%- elsif current_variant.available == false -%}
+                {{ 'products.product.sold_out' | t }}
+              {%- else -%}
+                {{ 'products.product.add_to_cart' | t }}
+              {%- endif -%}
+            </span>
+            {%- render 'loading-spinner' -%}
+          </button>
+        </form>
+      </product-form>
+    </div>
+  </violet-sticky-add-to-cart>
+
+  {{ 'violet-sticky-atc.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'violet-sticky-add-to-cart.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}

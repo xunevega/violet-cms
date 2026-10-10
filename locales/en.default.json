@@ -217,6 +217,10 @@
     }
   },
   "templates": {
+    "404": {
+      "title": "Page not found",
+      "subtext": "404"
+    },
     "search": {
       "no_results": "No results found for “{{ terms }}”. Check the spelling or use a different word or phrase.",
       "page": "Page",
@@ -260,10 +264,6 @@
         "post_success": "Thanks for contacting us. We'll get back to you as soon as possible.",
         "error_heading": "Please adjust the following:"
       }
-    },
-    "404": {
-      "title": "Page not found",
-      "subtext": "404"
     }
   },
   "sections": {
@@ -274,7 +274,6 @@
       "announcement": "Announcement",
       "announcement_bar": "Announcement bar"
     },
-
     "header": {
       "announcement": "Announcement",
       "menu": "Menu",
@@ -528,6 +527,68 @@
       "max_characters": "{{ max_chars }} characters max",
       "send_on": "YYYY-MM-DD",
       "send_on_label": "Send on (optional)"
+    }
+  },
+  "violet": {
+    "breadcrumbs": {
+      "home": "Home"
+    },
+    "cart": {
+      "empty_eyebrow": "Clean cart",
+      "empty_title": "There is nothing in the cart yet",
+      "empty_text": "Browse the catalog or start from a collection. No rush, no fake pressure.",
+      "empty_primary": "View products",
+      "empty_collections": "View collections",
+      "empty_blog": "Read brand stories",
+      "gift_title": "Add a gift",
+      "gift_button": "Add gift",
+      "add": "Add",
+      "cross_sell_title": "May also fit",
+      "free_shipping_remaining_html": "You are {{ amount }} away from free shipping.",
+      "free_shipping_success": "You have free shipping.",
+      "trust_message": "Your order is reviewed with care before shipping. No fake urgency: buy only what truly fits."
+    },
+    "product": {
+      "gift_occasions_heading": "Perfect for gifting",
+      "faq_heading": "Frequently asked questions",
+      "view_product": "View product",
+      "available": "Available",
+      "size_guide": "Size guide",
+      "view_size_guide": "View size guide",
+      "fit_notes": "Size and fit",
+      "availability": "Availability",
+      "delivery": "Delivery",
+      "returns": "Returns"
+    },
+    "collection": {
+      "quick_view": "Quick view",
+      "quick_view_for": "Quick view for {{ product }}",
+      "view_full_product": "View full product",
+      "available": "Available",
+      "options_available": "Options available",
+      "choose_options_note": "Choose options on the product page.",
+      "active_filters": "{{ count }} active filters",
+      "view_label": "View",
+      "view_standard": "Standard",
+      "view_editorial": "Editorial",
+      "badges_label": "Product badges"
+    },
+    "blog": {
+      "empty_editor_note": "Choose a blog with real articles to show this section."
+    },
+    "footer": {
+      "contact": "Contact",
+      "legal": "Legal",
+      "social": "Social"
+    },
+    "shop_the_look": {
+      "products_label": "Products in this look",
+      "view_product": "View {{ product }}"
+    },
+    "navigation": {
+      "featured_links": "Featured navigation links",
+      "mobile_bar": "Mobile commerce navigation",
+      "mega_intro": "Browse the full catalog or jump into a featured product."
     }
   }
 }

@@ -1,0 +1,68 @@
+{{ 'violet-navigation.css' | asset_url | stylesheet_tag }}
+
+{%- unless request.page_type == 'index' -%}
+  <nav class="violet-breadcrumbs color-{{ section.settings.color_scheme }} gradient" aria-label="Breadcrumb">
+    <div class="page-width" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
+      <ol class="violet-breadcrumbs__list list-unstyled">
+        <li class="violet-breadcrumbs__item">
+          <a href="{{ routes.root_url }}">{{ 'violet.breadcrumbs.home' | t }}</a>
+        </li>
+
+        {%- case request.page_type -%}
+          {%- when 'product' -%}
+            {%- if collection != blank -%}
+              <li class="violet-breadcrumbs__item">
+                <a href="{{ collection.url }}">{{ collection.title | escape }}</a>
+              </li>
+            {%- endif -%}
+            <li class="violet-breadcrumbs__item" aria-current="page">
+              <span>{{ product.title | escape }}</span>
+            </li>
+          {%- when 'collection' -%}
+            <li class="violet-breadcrumbs__item" aria-current="page">
+              <span>{{ collection.title | escape }}</span>
+            </li>
+          {%- when 'page' -%}
+            <li class="violet-breadcrumbs__item" aria-current="page">
+              <span>{{ page.title | escape }}</span>
+            </li>
+          {%- when 'blog' -%}
+            <li class="violet-breadcrumbs__item" aria-current="page">
+              <span>{{ blog.title | escape }}</span>
+            </li>
+          {%- when 'article' -%}
+            <li class="violet-breadcrumbs__item">
+              <a href="{{ blog.url }}">{{ blog.title | escape }}</a>
+            </li>
+            <li class="violet-breadcrumbs__item" aria-current="page">
+              <span>{{ article.title | escape }}</span>
+            </li>
+          {%- when 'cart' -%}
+            <li class="violet-breadcrumbs__item" aria-current="page">
+              <span>{{ 'sections.cart.title' | t }}</span>
+            </li>
+          {%- else -%}
+            <li class="violet-breadcrumbs__item" aria-current="page">
+              <span>{{ page_title | escape }}</span>
+            </li>
+        {%- endcase -%}
+      </ol>
+    </div>
+  </nav>
+{%- endunless -%}
+
+{% schema %}
+{
+  "name": "Violet: breadcrumbs",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-1" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 40, "step": 4, "unit": "px", "label": "Padding superior", "default": 16 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 40, "step": 4, "unit": "px", "label": "Padding inferior", "default": 0 }
+  ],
+  "presets": [
+    { "name": "Violet: breadcrumbs" }
+  ]
+}
+{% endschema %}

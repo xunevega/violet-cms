@@ -1,0 +1,31 @@
+{% comment %}
+  Violet CMS — Beneficios del producto (metaobjects violet_benefit_item).
+  Accepts: product, block
+{% endcomment %}
+{%- assign benefits = product.metafields.violet.benefits.value -%}
+{%- if benefits != blank -%}
+  {%- style -%}
+    .violet-benefits__text {
+      margin: 0.25rem 0 0;
+      font-size: 1.2rem;
+      color: rgba(var(--color-foreground), 0.7);
+    }
+  {%- endstyle -%}
+  <ul class="icon-with-text icon-with-text--horizontal list-unstyled violet-benefits" {{ block.shopify_attributes }}>
+    {%- for benefit in benefits -%}
+      <li class="icon-with-text__item">
+        {%- if benefit.icon.value != blank -%}
+          {{
+            benefit.icon.value
+            | image_url: width: 64
+            | image_tag: loading: 'lazy', width: 32, height: 32, alt: benefit.title.value
+          }}
+        {%- endif -%}
+        <span class="h4 inline-richtext">{{ benefit.title.value }}</span>
+        {%- if benefit.text.value != blank -%}
+          <p class="violet-benefits__text">{{ benefit.text.value }}</p>
+        {%- endif -%}
+      </li>
+    {%- endfor -%}
+  </ul>
+{%- endif -%}

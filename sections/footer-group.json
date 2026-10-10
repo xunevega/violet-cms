@@ -4,16 +4,50 @@
   "sections": {
     "footer": {
       "type": "footer",
-      "blocks": {},
-      "block_order": [],
+      "blocks": {
+        "violet_about": {
+          "type": "text",
+          "settings": {
+            "heading": "Violet Moon",
+            "subtext": "<p>Una tienda visual para piezas con caracter: productos reales, fichas cuidadas y compra clara.</p>"
+          }
+        },
+        "violet_house": {
+          "type": "text",
+          "settings": {
+            "heading": "La casa",
+            "subtext": "<p><a href=\"/pages/sobre-nosotros\">Quienes somos</a><br><a href=\"/pages/contacto\">Contacto</a><br><a href=\"/blogs/news\">Blog</a><br><a href=\"/collections/all\">Tienda</a></p>"
+          }
+        },
+        "violet_legal": {
+          "type": "text",
+          "settings": {
+            "heading": "Legal",
+            "subtext": "<p><a href=\"/policies/privacy-policy\">Privacidad</a><br><a href=\"/policies/terms-of-service\">Terminos de servicio</a><br><a href=\"/policies/refund-policy\">Cambios y devoluciones</a><br><a href=\"/policies/shipping-policy\">Envios</a></p>"
+          }
+        },
+        "violet_contact": {
+          "type": "text",
+          "settings": {
+            "heading": "Donde estamos",
+            "subtext": "<p>Violet Moon trabaja desde Espana y vende online. Para dudas sobre pedidos, productos o derechos de privacidad, usa la pagina de contacto.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "violet_about",
+        "violet_house",
+        "violet_legal",
+        "violet_contact"
+      ],
       "settings": {
         "color_scheme": "scheme-1",
-        "newsletter_enable": true,
-        "newsletter_heading": "Subscribe to our emails",
+        "newsletter_enable": false,
+        "newsletter_heading": "",
         "enable_follow_on_shop": true,
         "show_social": true,
-        "enable_country_selector": true,
-        "enable_language_selector": true,
+        "enable_country_selector": false,
+        "enable_language_selector": false,
         "payment_enable": true,
         "show_policy": true,
         "margin_top": 0,

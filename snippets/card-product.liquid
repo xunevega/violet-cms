@@ -16,6 +16,9 @@
   - horizontal_class: {Boolean} Add a card--horizontal class if set to true. Default: false (optional)
   - horizontal_quick_add: {Boolean} Changes the quick add button styles when set to true. Default: false (optional)
   - placeholder_image: {String} The placeholder image to use when no product exists. Default: 'product-apparel-2' (optional)
+  - show_violet_badges: {Boolean} Show Violet product badges. Default: false (optional)
+  - violet_badge_limit: {Number} Maximum Violet badges to show. Default: 2 (optional)
+  - enable_violet_quick_view: {Boolean} Show Violet quick view. Default: false (optional)
 
   Usage:
   {% render 'card-product', show_vendor: section.settings.show_vendor %}
@@ -207,6 +210,15 @@
               {%- endif -%}
 
               {% render 'price', product: card_product, price_class: '', show_compare_at_price: true %}
+
+              {%- if show_violet_badges -%}
+                {% render 'violet-product-card-badges', product: card_product, max_items: violet_badge_limit | default: 2 %}
+              {%- endif -%}
+
+              {%- if enable_violet_quick_view -%}
+                {% render 'violet-quick-view', product: card_product, section_id: section_id %}
+              {%- endif -%}
+
               {%- if card_product.quantity_price_breaks_configured? -%}
                 {% if card_product.variants_count == 1 and quick_add == 'bulk' %}
                   {% liquid
