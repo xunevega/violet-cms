@@ -19,7 +19,7 @@
     "violet-editorial": {
       "type": "violet-collection-editorial",
       "settings": {
-        "eyebrow": "Coleccion",
+        "eyebrow": "Colección",
         "heading": "",
         "heading_size": "h1",
         "max_subcollections": 8,

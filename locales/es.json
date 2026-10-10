@@ -291,7 +291,7 @@
       "remove_title": "Eliminar {{ title }}",
       "note": "Instrucciones especiales del pedido",
       "checkout": "Pagar pedido",
-      "empty": "Tu carrito esta vacío",
+      "empty": "Tu carrito está vacío",
       "product_disclosure": "Aviso sobre el producto",
       "product_disclosures": "Avisos sobre el producto",
       "cart_error": "Hubo un error al actualizar tu carrito de compra. Inténtalo de nuevo.",
@@ -581,12 +581,12 @@
       "choose_options_note": "Elige opciones en la ficha del producto.",
       "active_filters": "{{ count }} filtros activos",
       "view_label": "Vista",
-      "view_standard": "Estandar",
+      "view_standard": "Estándar",
       "view_editorial": "Editorial",
       "badges_label": "Badges del producto"
     },
     "blog": {
-      "empty_editor_note": "Elige un blog con articulos reales para mostrar esta seccion."
+      "empty_editor_note": "Elige un blog con artículos reales para mostrar esta sección."
     },
     "footer": {
       "contact": "Contacto",
@@ -598,9 +598,9 @@
       "view_product": "Ver {{ product }}"
     },
     "navigation": {
-      "featured_links": "Enlaces destacados de navegacion",
-      "mobile_bar": "Navegacion comercial movil",
-      "mega_intro": "Explora todo el catalogo o entra directo a un producto destacado."
+      "featured_links": "Enlaces destacados de navegación",
+      "mobile_bar": "Navegación comercial móvil",
+      "mega_intro": "Explora todo el catálogo o entra directo a un producto destacado."
     }
   }
 }

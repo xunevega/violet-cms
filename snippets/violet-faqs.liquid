@@ -26,7 +26,7 @@
           {{- 'icon-caret.svg' | inline_asset_content -}}
         </summary>
         <div class="accordion__content rte" id="ProductAccordion-FAQ-{{ faq.id }}-{{ section_id }}">
-          {{ faq.answer.value }}
+          {{ faq.answer | metafield_tag }}
         </div>
       </details>
     {%- endfor -%}

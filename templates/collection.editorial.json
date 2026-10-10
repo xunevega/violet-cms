@@ -19,14 +19,14 @@
     "violet-editorial": {
       "type": "violet-collection-editorial",
       "settings": {
-        "eyebrow": "Coleccion",
+        "eyebrow": "Colección",
         "heading": "",
         "heading_size": "h1",
         "max_subcollections": 8,
         "color_scheme": "scheme-1",
         "padding_top": 32,
         "padding_bottom": 40,
-        "featured_products_heading": "Seleccion editorial",
+        "featured_products_heading": "Selección editorial",
         "max_featured_products": 3,
         "section_width": "wide",
         "content_alignment": "left",

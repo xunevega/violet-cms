@@ -381,3 +381,35 @@ cart-drawer .cart-remove-button {
     width: 100%;
   }
 }
+
+/* Drawer: un solo scroll. Los paneles Violet (envio, regalo, cross-sell, notas)
+   ya no aplastan la lista de productos; el checkout queda fijo abajo. */
+cart-drawer .drawer__inner {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+cart-drawer .drawer__inner > .drawer__header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: rgb(var(--color-background));
+}
+
+cart-drawer .drawer__inner > cart-drawer-items {
+  flex: 0 0 auto;
+  overflow: visible;
+}
+
+cart-drawer .drawer__inner > .drawer__footer {
+  flex: 0 0 auto;
+}
+
+cart-drawer .violet-cart-ctas {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  background: rgb(var(--color-background));
+  padding-block: 1rem;
+  margin-bottom: -1rem;
+}

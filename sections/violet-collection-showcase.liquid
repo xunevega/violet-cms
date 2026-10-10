@@ -2,7 +2,11 @@
 
 {%- liquid
   assign showcase_collection = section.settings.collection
-  if showcase_collection == blank
+  comment
+    Sin coleccion (o con una que ya no existe) solo se rellena con "all"
+    dentro del editor, como vista previa. En tienda la seccion se oculta.
+  endcomment
+  if showcase_collection == blank and request.design_mode
     assign showcase_collection = collections['all']
   endif
   assign showcase_heading = section.settings.heading | default: showcase_collection.title
@@ -75,16 +79,16 @@
   "tag": "section",
   "class": "section",
   "settings": [
-    { "type": "collection", "id": "collection", "label": "Coleccion" },
-    { "type": "text", "id": "eyebrow", "label": "Etiqueta", "default": "Coleccion" },
-    { "type": "inline_richtext", "id": "heading", "label": "Titulo alternativo" },
+    { "type": "collection", "id": "collection", "label": "Colección" },
+    { "type": "text", "id": "eyebrow", "label": "Etiqueta", "default": "Colección" },
+    { "type": "inline_richtext", "id": "heading", "label": "Título alternativo" },
     { "type": "richtext", "id": "text", "label": "Texto" },
     {
       "type": "select",
       "id": "heading_size",
-      "label": "Tamano del titulo",
+      "label": "Tamaño del título",
       "options": [
-        { "value": "h2", "label": "Pequeno" },
+        { "value": "h2", "label": "Pequeño" },
         { "value": "h1", "label": "Medio" },
         { "value": "h0", "label": "Grande" }
       ],
@@ -93,7 +97,7 @@
     {
       "type": "select",
       "id": "heading_style",
-      "label": "Estilo del titulo",
+      "label": "Estilo del título",
       "info": "Da variedad visual entre franjas de colecciones",
       "options": [
         { "value": "solid", "label": "Solido" },
@@ -102,13 +106,13 @@
       ],
       "default": "solid"
     },
-    { "type": "text", "id": "button_label", "label": "Boton", "default": "Conocer" },
-    { "type": "url", "id": "button_link", "label": "Enlace del boton" },
+    { "type": "text", "id": "button_label", "label": "Botón", "default": "Conocer" },
+    { "type": "url", "id": "button_link", "label": "Enlace del botón" },
     {
       "type": "image_picker",
       "id": "banner_image",
-      "label": "Banner de coleccion (ilustracion + productos)",
-      "info": "Opcional. Si se sube, reemplaza la fila de fotos de producto por esta imagen unica."
+      "label": "Banner de colección (ilustración + productos)",
+      "info": "Opcional. Si se sube, reemplaza la fila de fotos de producto por esta imagen única."
     },
     { "type": "range", "id": "products_to_show", "min": 2, "max": 10, "step": 1, "label": "Productos a mostrar (si no hay banner)", "default": 6 },
     {
@@ -124,7 +128,7 @@
     {
       "type": "select",
       "id": "image_position",
-      "label": "Posicion de las imagenes",
+      "label": "Posición de las imágenes",
       "options": [
         { "value": "right", "label": "Derecha" },
         { "value": "left", "label": "Izquierda" }
@@ -136,7 +140,7 @@
     {
       "type": "select",
       "id": "section_width",
-      "label": "Ancho de seccion",
+      "label": "Ancho de sección",
       "options": [
         { "value": "narrow", "label": "Estrecho" },
         { "value": "page", "label": "Normal" },
@@ -148,7 +152,7 @@
     {
       "type": "select",
       "id": "content_alignment",
-      "label": "Alineacion del contenido",
+      "label": "Alineación del contenido",
       "options": [
         { "value": "left", "label": "Izquierda" },
         { "value": "center", "label": "Centro" },
@@ -173,8 +177,8 @@
       "id": "visibility",
       "label": "Visibilidad",
       "options": [
-        { "value": "all", "label": "Movil y escritorio" },
-        { "value": "mobile", "label": "Solo movil" },
+        { "value": "all", "label": "Móvil y escritorio" },
+        { "value": "mobile", "label": "Solo móvil" },
         { "value": "desktop", "label": "Solo escritorio" }
       ],
       "default": "all"

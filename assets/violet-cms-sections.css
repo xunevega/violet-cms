@@ -132,7 +132,14 @@
 }
 
 .violet-hero__overlay {
-  background: rgb(0 0 0 / var(--violet-hero-overlay, 0.35));
+  /* Dawn oculta div:empty; sin esto el oscurecido nunca se pintaba. */
+  display: block;
+  /* Mas oscuro abajo, donde vive el texto; el ajuste del editor fija la base. */
+  background: linear-gradient(
+    to top,
+    rgb(0 0 0 / calc(var(--violet-hero-overlay, 0.35) + 0.25)) 0%,
+    rgb(0 0 0 / var(--violet-hero-overlay, 0.35)) 70%
+  );
   pointer-events: none;
 }
 

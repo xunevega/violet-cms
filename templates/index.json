@@ -85,7 +85,7 @@
       "settings": {
         "eyebrow": "Violet multimedia",
         "heading": "Imagen, video y producto en la misma casa",
-        "text": "<p>Una zona para enseñar movimiento, imagenes y enlaces comerciales sin convertir la home en una plantilla pesada.</p>",
+        "text": "<p>Una zona para enseñar movimiento, imágenes y enlaces comerciales sin convertir la home en una plantilla pesada.</p>",
         "heading_size": "h1",
         "button_label": "Ver productos",
         "button_link": "shopify://collections/all",
@@ -94,7 +94,7 @@
         "card_1_text": "Piezas visuales para probar ficha premium, carrito y compra real.",
         "card_1_link": "shopify://products/bolso-mano-chic-colibri-estampado-floral",
         "card_2_title": "Tazas y rituales",
-        "card_2_text": "Producto cotidiano con una capa visual mas cuidada.",
+        "card_2_text": "Producto cotidiano con una capa visual más cuidada.",
         "card_2_link": "shopify://products/taza-te-gato-kawaii-ceramica-tapa-cuchara",
         "card_3_title": "Bolsos ilustrados",
         "card_3_text": "Colecciones que funcionan mejor cuando tienen contexto.",
@@ -107,7 +107,7 @@
     "violet_product_carousel": {
       "type": "violet-product-carousel",
       "settings": {
-        "eyebrow": "Seleccion Violet",
+        "eyebrow": "Selección Violet",
         "heading": "Productos para mirar mejor",
         "heading_size": "h1",
         "text": "<p>Un carrusel ligero para descubrir productos reales sin convertir la home en una plantilla pesada.</p>",
@@ -177,7 +177,7 @@
       "settings": {
         "eyebrow": "Shop the look",
         "heading": "Rincones completos para explorar",
-        "text": "<p>Escenas visuales con productos reales y puntos clicables: menos escaparate falso, mas contexto para mirar y decidir.</p>",
+        "text": "<p>Escenas visuales con productos reales y puntos clicables: menos escaparate falso, más contexto para mirar y decidir.</p>",
         "heading_size": "h1",
         "columns_desktop": "2",
         "max_items": 2,
@@ -194,7 +194,7 @@
           "type": "editorial_card",
           "settings": {
             "title": "Historias para descubrir",
-            "text": "<p>Presenta colecciones, materiales, inspiracion o universos visuales sin tocar codigo.</p>",
+            "text": "<p>Presenta colecciones, materiales, inspiración o universos visuales sin tocar código.</p>",
             "button_label": "Ver colecciones",
             "button_link": "shopify://collections"
           }
@@ -225,7 +225,7 @@
       ],
       "settings": {
         "eyebrow": "Entrada",
-        "heading": "Una tienda con mas contexto",
+        "heading": "Una tienda con más contexto",
         "text": "<p>Violet CMS convierte la home en una portada comercial: clara, visual y editable.</p>",
         "heading_size": "h1",
         "columns_desktop": "3",

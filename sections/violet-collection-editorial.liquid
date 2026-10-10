@@ -27,7 +27,7 @@
             {{ section.settings.heading | default: collection.title }}
           </h2>
           {%- if editorial_text != blank -%}
-            <div class="violet-section__text rte">{{ editorial_text }}</div>
+            <div class="violet-section__text rte">{{ collection.metafields.violet.editorial_text | metafield_tag }}</div>
           {%- endif -%}
           {%- if subcollections != blank -%}
             <nav class="violet-subcollections" aria-label="Subcolecciones">
@@ -55,7 +55,7 @@
                 <h3 class="violet-card__title h3">{{ featured_block.title.value | escape }}</h3>
               {%- endif -%}
               {%- if featured_block.text.value != blank -%}
-                <div class="violet-card__text rte">{{ featured_block.text.value }}</div>
+                <div class="violet-card__text rte">{{ featured_block.text | metafield_tag }}</div>
               {%- endif -%}
               {%- if featured_block.cta_label.value != blank and featured_block.cta_url.value != blank -%}
                 <a class="button button--secondary" href="{{ featured_block.cta_url.value }}">
@@ -136,27 +136,27 @@
 
 {% schema %}
 {
-  "name": "Violet: coleccion",
+  "name": "Violet: colección",
   "tag": "section",
   "class": "section",
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Etiqueta", "default": "Coleccion" },
-    { "type": "inline_richtext", "id": "heading", "label": "Titulo alternativo" },
-    { "type": "text", "id": "featured_products_eyebrow", "label": "Etiqueta productos destacados", "default": "Seleccion editorial" },
-    { "type": "text", "id": "featured_products_heading", "label": "Titulo productos destacados", "default": "Destacados" },
+    { "type": "text", "id": "eyebrow", "label": "Etiqueta", "default": "Colección" },
+    { "type": "inline_richtext", "id": "heading", "label": "Título alternativo" },
+    { "type": "text", "id": "featured_products_eyebrow", "label": "Etiqueta productos destacados", "default": "Selección editorial" },
+    { "type": "text", "id": "featured_products_heading", "label": "Título productos destacados", "default": "Destacados" },
     {
       "type": "select",
       "id": "heading_size",
-      "label": "Tamano del titulo",
+      "label": "Tamaño del título",
       "options": [
-        { "value": "h2", "label": "Pequeno" },
+        { "value": "h2", "label": "Pequeño" },
         { "value": "h1", "label": "Medio" },
         { "value": "h0", "label": "Grande" }
       ],
       "default": "h1"
     },
-    { "type": "range", "id": "max_subcollections", "min": 2, "max": 12, "step": 1, "label": "Maximo de subcolecciones", "default": 8 },
-    { "type": "range", "id": "max_featured_products", "min": 2, "max": 12, "step": 1, "label": "Maximo de productos destacados", "default": 6 },
+    { "type": "range", "id": "max_subcollections", "min": 2, "max": 12, "step": 1, "label": "Máximo de subcolecciones", "default": 8 },
+    { "type": "range", "id": "max_featured_products", "min": 2, "max": 12, "step": 1, "label": "Máximo de productos destacados", "default": 6 },
     { "type": "range", "id": "featured_products_columns", "min": 1, "max": 4, "step": 1, "label": "Columnas productos destacados", "default": 2 },
     {
       "type": "select",
@@ -172,13 +172,13 @@
     { "type": "checkbox", "id": "show_secondary_image", "label": "Mostrar segunda imagen", "default": true },
     { "type": "checkbox", "id": "show_vendor", "label": "Mostrar marca", "default": false },
     { "type": "checkbox", "id": "show_violet_badges", "label": "Mostrar badges Violet", "default": true },
-    { "type": "checkbox", "id": "enable_violet_quick_view", "label": "Activar vista rapida", "default": true },
+    { "type": "checkbox", "id": "enable_violet_quick_view", "label": "Activar vista rápida", "default": true },
     { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-1" },
     { "type": "header", "content": "Violet layout" },
     {
       "type": "select",
       "id": "section_width",
-      "label": "Ancho de seccion",
+      "label": "Ancho de sección",
       "options": [
         { "value": "narrow", "label": "Estrecho" },
         { "value": "page", "label": "Normal" },
@@ -190,7 +190,7 @@
     {
       "type": "select",
       "id": "content_alignment",
-      "label": "Alineacion del contenido",
+      "label": "Alineación del contenido",
       "options": [
         { "value": "left", "label": "Izquierda" },
         { "value": "center", "label": "Centro" },
@@ -215,8 +215,8 @@
       "id": "visibility",
       "label": "Visibilidad",
       "options": [
-        { "value": "all", "label": "Movil y escritorio" },
-        { "value": "mobile", "label": "Solo movil" },
+        { "value": "all", "label": "Móvil y escritorio" },
+        { "value": "mobile", "label": "Solo móvil" },
         { "value": "desktop", "label": "Solo escritorio" }
       ],
       "default": "all"
@@ -225,7 +225,7 @@
     { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding inferior", "default": 36 }
   ],
   "presets": [
-    { "name": "Violet: coleccion" }
+    { "name": "Violet: colección" }
   ]
 }
 {% endschema %}

@@ -19,7 +19,7 @@
         {{- 'icon-caret.svg' | inline_asset_content -}}
       </summary>
       <div class="accordion__content rte" id="ProductAccordion-Story-{{ block.id }}-{{ section_id }}">
-        {{ story }}
+        {{ product.metafields.violet.story | metafield_tag }}
       </div>
     </details>
   </div>
@@ -37,7 +37,7 @@
         {{- 'icon-caret.svg' | inline_asset_content -}}
       </summary>
       <div class="accordion__content rte" id="ProductAccordion-Inspiration-{{ block.id }}-{{ section_id }}">
-        {{ inspiration }}
+        {{ product.metafields.violet.inspiration | metafield_tag }}
       </div>
     </details>
   </div>
