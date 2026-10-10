@@ -212,7 +212,8 @@
               {% render 'price', product: card_product, price_class: '', show_compare_at_price: true %}
 
               {%- if show_violet_badges -%}
-                {% render 'violet-product-card-badges', product: card_product, max_items: violet_badge_limit | default: 2 %}
+                {%- assign violet_badge_max = violet_badge_limit | default: 2 -%}
+                {% render 'violet-product-card-badges', product: card_product, max_items: violet_badge_max %}
               {%- endif -%}
 
               {%- if enable_violet_quick_view -%}

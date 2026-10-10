@@ -8,7 +8,7 @@
     3. violet.upsell           -> regla "upsell"
     4. violet.bought_together  -> regla "bought_together"
     5. violet.related_products -> regla "related_products"
-  El regalo configurado (settings.violet_gift_product) vive en violet-cart-gift y no se repite aqui.
+  El regalo (shop.metafields.violet.cart_gift_product_handle o settings.violet_gift_product) vive en violet-cart-gift y no se repite aqui.
 
   Reglas comunes:
     - Nunca se sugiere un producto que ya esta en el carrito ni el regalo configurado.
@@ -23,8 +23,9 @@
   assign cart_handles = '|'
   assign shown_handles = '|'
 
-  if settings.violet_gift_product != blank
-    assign shown_handles = shown_handles | append: settings.violet_gift_product.handle | append: '|'
+  assign gift_handle = shop.metafields.violet.cart_gift_product_handle.value | default: settings.violet_gift_product.handle
+  if gift_handle != blank
+    assign shown_handles = shown_handles | append: gift_handle | append: '|'
   endif
 
   for cart_item in cart.items
