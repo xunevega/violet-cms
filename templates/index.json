@@ -80,30 +80,6 @@
         "padding_bottom": 56
       }
     },
-    "violet_media_studio": {
-      "type": "violet-media-studio",
-      "settings": {
-        "eyebrow": "Violet multimedia",
-        "heading": "Imagen, video y producto en la misma casa",
-        "text": "<p>Una zona para enseñar movimiento, imágenes y enlaces comerciales sin convertir la home en una plantilla pesada.</p>",
-        "heading_size": "h1",
-        "button_label": "Ver productos",
-        "button_link": "shopify://collections/all",
-        "video_label": "Video editorial Violet Moon",
-        "card_1_title": "Bolsos ilustrados",
-        "card_1_text": "Piezas visuales para probar ficha premium, carrito y compra real.",
-        "card_1_link": "shopify://products/bolso-mano-chic-colibri-estampado-floral",
-        "card_2_title": "Tazas y rituales",
-        "card_2_text": "Producto cotidiano con una capa visual más cuidada.",
-        "card_2_link": "shopify://products/taza-te-gato-kawaii-ceramica-tapa-cuchara",
-        "card_3_title": "Bolsos ilustrados",
-        "card_3_text": "Colecciones que funcionan mejor cuando tienen contexto.",
-        "card_3_link": "shopify://products/bolso-mano-chic-colibri-estampado-floral",
-        "color_scheme": "scheme-1",
-        "padding_top": 52,
-        "padding_bottom": 52
-      }
-    },
     "violet_product_carousel": {
       "type": "violet-product-carousel",
       "settings": {
@@ -187,53 +163,6 @@
         "padding_bottom": 52
       }
     },
-    "violet_editorial": {
-      "type": "violet-editorial-grid",
-      "blocks": {
-        "story": {
-          "type": "editorial_card",
-          "settings": {
-            "title": "Historias para descubrir",
-            "text": "<p>Presenta colecciones, materiales, inspiración o universos visuales sin tocar código.</p>",
-            "button_label": "Ver colecciones",
-            "button_link": "shopify://collections"
-          }
-        },
-        "gifting": {
-          "type": "editorial_card",
-          "settings": {
-            "title": "Ideas para regalar",
-            "text": "<p>Explica cuándo encaja cada pieza sin inventar urgencias ni opiniones de mentira.</p>",
-            "button_label": "Explorar regalos",
-            "button_link": "shopify://collections/all"
-          }
-        },
-        "craft": {
-          "type": "editorial_card",
-          "settings": {
-            "title": "Detalles que importan",
-            "text": "<p>Da espacio a beneficios, cuidados, confianza y narrativa de marca.</p>",
-            "button_label": "",
-            "button_link": ""
-          }
-        }
-      },
-      "block_order": [
-        "story",
-        "gifting",
-        "craft"
-      ],
-      "settings": {
-        "eyebrow": "Entrada",
-        "heading": "Una tienda con más contexto",
-        "text": "<p>Violet CMS convierte la home en una portada comercial: clara, visual y editable.</p>",
-        "heading_size": "h1",
-        "columns_desktop": "3",
-        "color_scheme": "scheme-1",
-        "padding_top": 52,
-        "padding_bottom": 52
-      }
-    },
     "violet_logos": {
       "type": "violet-brand-logos",
       "settings": {
@@ -271,8 +200,6 @@
     "violet_showcase_bolsos",
     "violet_showcase_geometrico",
     "violet_showcase_doodle",
-    "violet_media_studio",
-    "violet_editorial",
     "violet_product_carousel",
     "violet_featured_product",
     "violet_shop_the_look",
