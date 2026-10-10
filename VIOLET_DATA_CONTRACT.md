@@ -33,6 +33,16 @@ Owner: `PRODUCT`.
 | `delivery_note` | `single_line_text_field` | Nota de envio especifica |
 | `returns_note` | `single_line_text_field` | Nota de devoluciones especifica |
 | `availability_message` | `single_line_text_field` | Mensaje honesto de disponibilidad |
+| `cart_cross_sell` | `list.product_reference` | Sugerencias del carrito (prioridad 1) |
+| `cross_sell` | `list.product_reference` | Venta cruzada (carrito, prioridad 2) |
+| `upsell` | `list.product_reference` | Version superior (carrito, prioridad 3) |
+| `bought_together` | `list.product_reference` | Comprados juntos (carrito, prioridad 4) |
+| `related_products` | `list.product_reference` | Relacionados (carrito, prioridad 5) |
+| `recommendation_note` | `single_line_text_field` | Nota de recomendacion |
+
+### Reglas de recomendacion en carrito
+
+`snippets/violet-cart-cross-sell.liquid` usa, por cada linea del carrito, la primera lista con contenido segun la prioridad anterior. Nunca sugiere productos ya presentes en el carrito, el regalo configurado ni duplicados entre lineas, y solo variantes disponibles. El maximo se controla en Ajustes del tema > Carrito (`violet_cart_cross_sell_max`, 1-6, por defecto 2). Cada sugerencia lleva `data-violet-cart-rule` con la regla que la origino.
 
 ## Collection metafields
 

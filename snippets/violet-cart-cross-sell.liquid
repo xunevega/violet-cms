@@ -1,14 +1,31 @@
 {% comment %}
   Violet CMS — sober cart cross-sell.
   Appi contract: product.metafields.violet.cart_cross_sell as a product reference list.
-  Fallbacks: product.metafields.violet.cross_sell, upsell, related_products.
+
+  Prioridad por linea de carrito (se usa la primera lista con contenido):
+    1. violet.cart_cross_sell  -> regla "cart_cross_sell"
+    2. violet.cross_sell       -> regla "cross_sell"
+    3. violet.upsell           -> regla "upsell"
+    4. violet.bought_together  -> regla "bought_together"
+    5. violet.related_products -> regla "related_products"
+  El regalo configurado (settings.violet_gift_product) vive en violet-cart-gift y no se repite aqui.
+
+  Reglas comunes:
+    - Nunca se sugiere un producto que ya esta en el carrito ni el regalo configurado.
+    - Nunca se repite un producto entre lineas.
+    - Solo variantes disponibles.
+    - Maximo de sugerencias: settings.violet_cart_cross_sell_max (1-6, por defecto 2).
 {% endcomment %}
 
 {%- liquid
-  assign max_items = 2
+  assign max_items = settings.violet_cart_cross_sell_max | default: 2
   assign rendered_count = 0
   assign cart_handles = '|'
   assign shown_handles = '|'
+
+  if settings.violet_gift_product != blank
+    assign shown_handles = shown_handles | append: settings.violet_gift_product.handle | append: '|'
+  endif
 
   for cart_item in cart.items
     assign cart_handles = cart_handles | append: cart_item.product.handle | append: '|'
@@ -18,17 +35,29 @@
 {%- capture cross_sell_items -%}
   {%- for item in cart.items -%}
     {%- liquid
+      assign suggestion_rule = 'cart_cross_sell'
       assign suggestions = item.product.metafields.violet.cart_cross_sell.value
       if suggestions == blank
+        assign suggestion_rule = 'cross_sell'
         assign suggestions = item.product.metafields.violet.cross_sell.value
       endif
       if suggestions == blank
+        assign suggestion_rule = 'upsell'
         assign suggestions = item.product.metafields.violet.upsell.value
       endif
       if suggestions == blank
+        assign suggestion_rule = 'bought_together'
+        assign suggestions = item.product.metafields.violet.bought_together.value
+      endif
+      if suggestions == blank
+        assign suggestion_rule = 'related_products'
         assign suggestions = item.product.metafields.violet.related_products.value
       endif
     -%}
+
+    {%- if rendered_count >= max_items -%}
+      {%- break -%}
+    {%- endif -%}
 
     {%- for suggestion in suggestions -%}
       {%- if rendered_count >= max_items -%}
@@ -60,7 +89,7 @@
           assign shown_handles = shown_handles | append: suggestion.handle | append: '|'
         -%}
 
-        <violet-cart-add class="violet-cart-cross-sell__item">
+        <violet-cart-add class="violet-cart-cross-sell__item" data-violet-cart-rule="{{ suggestion_rule }}">
           <a class="violet-cart-cross-sell__media" href="{{ suggestion.url }}" tabindex="-1" aria-hidden="true">
             {%- if suggestion.featured_image -%}
               <img

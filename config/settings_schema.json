@@ -1456,6 +1456,16 @@
         "label": "Violet: producto regalo opcional"
       },
       {
+        "type": "range",
+        "id": "violet_cart_cross_sell_max",
+        "label": "Violet: maximo de recomendaciones en carrito",
+        "info": "Prioridad: cart_cross_sell, cross_sell, upsell, bought_together y related_products. Nunca repite productos del carrito ni el regalo.",
+        "min": 1,
+        "max": 6,
+        "step": 1,
+        "default": 2
+      },
+      {
         "type": "text",
         "id": "violet_cart_trust_message",
         "label": "Violet: mensaje de confianza del carrito",
